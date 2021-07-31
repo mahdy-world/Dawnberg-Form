@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-zrak_o@0hp90-iicx8g2&+h2e5)*k+)p&wje6iiyh%5^l767je
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -54,7 +54,7 @@ ROOT_URLCONF = 'DawnbergForm.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -103,9 +103,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ar-eg'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Cairo'
 
 USE_I18N = True
 
@@ -116,8 +116,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
 STATIC_URL = '/static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR,'uploads')
+MEDIA_URL = '/uploads/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
