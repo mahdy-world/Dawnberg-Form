@@ -15,7 +15,7 @@ class Login(View):
                 login(request, user)
                 return redirect('Core:index')
             else:
-                error = 'تم ايقاف حسابك الخاص بك '
+                error = 'تم ايقاف الحساب الخاص بك '
                 return render(request, 'Auth/login.html' , context={'error':error}) 
         else:
                 error = 'برجاء التأكد من اسم المستخدم وكلمة المرور'
