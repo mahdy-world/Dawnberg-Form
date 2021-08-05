@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login
 # Create your views here.
 
 class Login(View):
+    
     def post(self,request):
         username = request.POST['username']
         password = request.POST['password']
