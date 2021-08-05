@@ -16,7 +16,7 @@ class Form(models.Model):
 
 
 class Question(models.Model):
-    qtype = (
+    question_type = (
         ('نص قصير','نص قصير'),
         ('نص طويل','نص طويل'),
         ('اختيار متعدد','اختيار متعدد '),
@@ -24,7 +24,15 @@ class Question(models.Model):
     )
     form = models.ForeignKey(Form,verbose_name="المنوذج", on_delete=models.CASCADE) 
     question_name= models.CharField(max_length=50,verbose_name='عنوان السؤال')
-    question_type=models.CharField(max_length=50, choices=qtype)  
+    question_type=models.CharField(max_length=50, choices=question_type)  
     
     def __str__(self):
-        return self.form
+        return self.question_name
+
+
+class QuestionOption(models.Model):
+    question = models.ForeignKey(Question, verbose_name="السؤال", on_delete=models.CASCADE) 
+    option = models.CharField( max_length=50 , verbose_name='الاختيار')       
+
+    def __str__(self):
+        return self.option
