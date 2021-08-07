@@ -5,8 +5,8 @@ from django.contrib.auth.models import User
 
 
 class Form(models.Model):
-    title = models.CharField(max_length=50,verbose_name="عنوان النموذج")
-    description = models.TextField(verbose_name="تفاصيل النموذج")
+    title = models.CharField(max_length=50,)
+    description = models.CharField(max_length=100,)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE , verbose_name = 'انشئت بواسطة')
     created_at = models.DateTimeField(auto_now=True,  verbose_name='تاريخ الانشاء ')
     deleted = models.BooleanField(default=False, verbose_name='حذف')

@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+
+
+ 
+    <!-- Body -->
+    {% block body %}
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0 font-size-18">Form Design</h4>
+
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="{javascript: void(0);}">Forms</a></li>
+                                    <li class="breadcrumb-item active">Create New Form</li>
+                                </ol>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <!-- Create Form -->
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card" style="border-top: 4px solid #556ee6;">
+                            <div class="card-body">
+                                <h1 style="font-size: x-large;" class="card-title mb-4">{{object.title}}</h1>
+                                
+                                <h6 style="color: #969595;" class=" mb-4">{{object.description}}</h6>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Create Form  -->
+                    
+               
+                    <div class="col-lg-6">
+                        <div class="card" style="border-top: 4px solid #34c38f;">
+                            <div class="card-body">
+                                <a href="{% url 'Form:QuestionCreate' object.id %}" class="btn btn-primary">Create</a>
+                              
+                               
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    
+               
+                
+                    
+                </div>
+                <!-- end row -->
+
+                <!-- start page title -->
+                <!-- <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0 font-size-18">Body</h4>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- end page title -->
+
+                <!-- Create Form -->
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h1 style="font-size:18px;" >What is your name ?</h1>
+                                
+                                <input type="text" class="form-control mb-4" id="formrow-firstname-input" style="border: none;
+                                border-bottom: 2px solid red;">
+
+                                <h1 style="font-size:18px;" >Skills</h1>
+                                
+                                <div>
+                                    <div class="custom-control custom-checkbox custom-checkbox-outline custom-checkbox-primary mb-3">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck-outlinecolor1" checked="">
+                                        <label class="custom-control-label" for="customCheck-outlinecolor1">Checkbox Outline Primary</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox custom-checkbox-outline custom-checkbox-success mb-3">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck-outlinecolor2">
+                                        <label class="custom-control-label" for="customCheck-outlinecolor2">Checkbox Outline Success</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox custom-checkbox-outline custom-checkbox-info mb-3">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck-outlinecolor3" checked="">
+                                        <label class="custom-control-label" for="customCheck-outlinecolor3">Checkbox Outline Info</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox custom-checkbox-outline  custom-checkbox-warning mb-3">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck-outlinecolor4" checked="">
+                                        <label class="custom-control-label" for="customCheck-outlinecolor4">Checkbox Outline Warning</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox custom-checkbox-outline custom-checkbox-danger">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck-outlinecolor5" checked="">
+                                        <label class="custom-control-label" for="customCheck-outlinecolor5">Checkbox Outline Danger</label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Create Form  -->
+                    
+                    
+                </div>
+                <!-- end row -->
+
+               
+             
+               
+            </div> 
+        </div>
+        <!-- End Page-content -->
+
+        
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <script>document.write(new Date().getFullYear())</script>2021 © Skote.
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-sm-right d-none d-sm-block">
+                            Design &amp; Develop by Themesbrand
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    {% endblock body %}
+       
+       
