@@ -33,9 +33,9 @@
                     <div class="col-lg-6">
                         <div class="card" style="border-top: 4px solid #556ee6;">
                             <div class="card-body">
-                                <h1 style="font-size: x-large;" class="card-title mb-4">{{object.title}}</h1>
+                                <h1 style="font-size: x-large;" class="card-title mb-4">{{forms.title}} <a href="" class="btn btn-primary"><i class="mdi mdi-pencil  font-size-8"></i></a></h1>
                                 
-                                <h6 style="color: #969595;" class=" mb-4">{{object.description}}</h6>
+                                <h6 style="color: #969595;" class=" mb-4">{{forms.description}}</h6>
 
                             </div>
                         </div>
@@ -43,12 +43,10 @@
                     <!-- End Create Form  -->
                     
                
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <div class="card" style="border-top: 4px solid #34c38f;">
                             <div class="card-body">
-                                <a href="{% url 'Form:QuestionCreate' object.id %}" class="btn btn-primary">Create</a>
-                              
-                               
+                                <a href="{% url 'Form:QuestionCreate' object.id %}" class="btn btn-success" style="font-size: x-large;" class="card-title mb-4">Create Question</a>
                                 
                             </div>
                         </div>
@@ -76,11 +74,24 @@
                     <div class="col-lg-6">
                         <div class="card">
                             <div class="card-body">
-                                <h1 style="font-size:18px;" >What is your name ?</h1>
                                 
+                                {% for x in question  %}
+                                <h1 style="font-size:18px;" >{{x.question_name}} <a href="" class="btn btn-primary"><i class="mdi mdi-pencil  font-size-8"></i></a> </h1>
+                                
+                                {% if x.question_type == "نص قصير" or x.question_type == "نص طويل" %}
                                 <input type="text" class="form-control mb-4" id="formrow-firstname-input" style="border: none;
-                                border-bottom: 2px solid red;">
+                                border-bottom: 2px solid #556ee6;" placeholder="Put your answer here...">
+                                {% endif %}
+                                    
+                                
 
+                                {% endfor %}
+                                
+                                
+                                    
+                                
+                                
+                                
                                 <h1 style="font-size:18px;" >Skills</h1>
                                 
                                 <div>

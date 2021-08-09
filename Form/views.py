@@ -69,6 +69,15 @@ class FormView(LoginRequiredMixin, DetailView):
     template_name = 'Form/form_view.html'
     form_class = QuestionForm
 
+    def get_context_data(self, **kwargs):
+        kwargs['forms'] = Form.objects.get(id=self.kwargs['pk'])
+        kwargs['question'] = Question.objects.filter(form=self.kwargs['pk'])
+        return super(FormView , self).get_context_data(**kwargs)
+
+        
+        
+    
+
     
 
 
@@ -80,8 +89,10 @@ class QuestionCreate(LoginRequiredMixin ,CreateView):
     success_url = reverse_lazy('Form:FormList')
     
 
+    
+
     def get_queryset(self):
-        queryset = self.model.objects.all()
+        queryset = self.model.objects.get()
         return queryset
 
     def get_context_data(self, **kwargs):
