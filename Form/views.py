@@ -1,66 +1,65 @@
 from django.shortcuts import redirect, render
-from django.views.generic import * 
+from django.views.generic import *
 from .models import *
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.views import View
 from .forms import *
 from django.urls import reverse_lazy
 
+
 # Create your views here.
-class FormList(LoginRequiredMixin , ListView):
+class FormList(LoginRequiredMixin, ListView):
     login_url = '/auth/login/'
     model = Form
     paginate_by = 100
 
     def get_queryset(self):
-       queryset = self.model.objects.all()
-       return queryset
+        queryset = self.model.objects.all()
+        return queryset
 
 
-
-class FormCreate(LoginRequiredMixin ,CreateView):
+class FormCreate(LoginRequiredMixin, CreateView):
     login_url = '/auth/login/'
     model = Form
     form_class = MainForm
     template_name = 'Form/form_new.html'
-    
 
     def get_queryset(self):
         queryset = self.model.objects.all()
         return queryset
 
-    def post(self,request):
-        if request.method=='POST':
+    def post(self, request):
+        if request.method == 'POST':
             form = self.form_class(request.POST or None)
             if form.is_valid():
                 myform = form.save(commit=False)
                 myform.created_by = request.user
                 myform.save()
-                return redirect('Form:FormView' , pk=myform.id)
-        
-    
+                return redirect('Form:FormView', pk=myform.id)
+
     def get(self, request):
         form = MainForm(request.POST or None)
         queryset = self.model.objects.all()
-       
-        return render(request, self.template_name , {'form':form , 'all':queryset} )
 
-class FormUpdate(LoginRequiredMixin , UpdateView):
+        return render(request, self.template_name, {'form': form, 'all': queryset})
+
+
+class FormUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/auth/login/'
     model = Form
     form_class = MainForm
     template_name = 'Form/form_new.html'
     success_url = reverse_lazy('Form:FormUpdate')
 
-    def get_context_data(self,**kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['action_url'] = reverse_lazy('Form:update' , kwargs={'pk':self.object.id})
+        context['action_url'] = reverse_lazy('Form:update', kwargs={'pk': self.object.id})
 
     def get_success_url(self):
         if self.request.POST.get('url'):
             return self.request.POST.get('url')
         else:
-            self.success_url    
+            self.success_url
 
 
 class FormView(LoginRequiredMixin, DetailView):
@@ -72,24 +71,15 @@ class FormView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         kwargs['forms'] = Form.objects.get(id=self.kwargs['pk'])
         kwargs['question'] = Question.objects.filter(form=self.kwargs['pk'])
-        return super(FormView , self).get_context_data(**kwargs)
-
-        
-        
-    
-
-    
+        return super(FormView, self).get_context_data(**kwargs)
 
 
-class QuestionCreate(LoginRequiredMixin ,CreateView):
+class OptionalQuestionCreate(LoginRequiredMixin, CreateView):
     login_url = '/auth/login/'
     model = Question
     form_class = QuestionForm
     template_name = 'Question/Question_new.html'
     success_url = reverse_lazy('Form:FormList')
-    
-
-    
 
     def get_queryset(self):
         queryset = self.model.objects.get()
@@ -114,6 +104,29 @@ class QuestionCreate(LoginRequiredMixin ,CreateView):
             formset.instance = self.object
             formset.save()
         return redirect(self.success_url)
+
+
+class TextQuestionCreate(LoginRequiredMixin, CreateView):
+    login_url = '/auth/login/'
+    model = Question
+    form_class = QuestionForm
+    template_name = 'Question/Question_new.html'
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('Form:FormView', kwargs={'pk': self.request.POST.get('form_pk')})
+
+    def form_valid(self, form):
+        question = form.save(commit=False)
+        question.form = Form.objects.get(id=self.request.POST.get('form_pk'))
+        question.save()
+        return redirect(self.get_success_url())
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_pk'] = self.request.GET.get('form_id')
+        return context
+
+
 '''
     def post(self,request,pk):
         form = self.form_class(request.POST or None)
@@ -127,13 +140,9 @@ class QuestionCreate(LoginRequiredMixin ,CreateView):
 
         return render(request, self.template_name , {'form':form })    
  '''
-    
 
-    # def get(self, request ):
-    #     form = self.form_class(request.POST or None)
-    #     queryset = self.model.objects.all()
-       
-    #     return render(request, self.template_name , {'form':form , 'all':queryset} )    
+# def get(self, request ):
+#     form = self.form_class(request.POST or None)
+#     queryset = self.model.objects.all()
 
-    
-  
+#     return render(request, self.template_name , {'form':form , 'all':queryset} )
