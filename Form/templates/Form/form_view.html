@@ -90,6 +90,11 @@
                                                style="border: none;
                                 border-bottom: 2px solid #556ee6;" placeholder="Put your answer here...">
                                     {% elif question.question_type == 'اختيار متعدد' %}
+                                        <select class="select2" multiple>
+                                            {% for option in question.questionoption_set.all %}
+                                                <option value="{{ option.id }}">{{ option.option }}</option>
+                                            {% endfor %}
+                                        </select>
                                         {% for option in question.questionoption_set.all %}
                                             <div class="custom-control custom-checkbox custom-checkbox-outline custom-checkbox-primary mb-3">
                                                 <input type="checkbox" class="custom-control-input"
