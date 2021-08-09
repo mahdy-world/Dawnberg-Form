@@ -45,7 +45,7 @@ class AnswerPerson(models.Model):
 
 
 class Answer(models.Model):
-    person = models.ForeignKey(AnswerPerson, on_delete=models.CASCADE)
+    person = models.ForeignKey(AnswerPerson, on_delete=models.CASCADE, null=True)
     question = models.ForeignKey(Question, verbose_name='السؤال', on_delete=models.CASCADE)
     text_answer = models.TextField(verbose_name='الإجابة')
     optional_answer = models.ManyToManyField(QuestionOption, verbose_name='الإجابة')
