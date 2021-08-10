@@ -10,4 +10,7 @@ urlpatterns = [
 
     path('question/new/text/<int:pk>/', TextQuestionCreate.as_view(), name='TextQuestionCreate'),
     path('question/new/optional/<int:pk>/', OptionalQuestionCreate.as_view(), name='OptionalQuestionCreate'),
+    path('question/edit/text/<int:pk>/', TextQuestionUpdate.as_view(), name='TextQuestionUpdate'),
+    path('question/edit/option/<int:pk>/', OptionQuestionUpdate.as_view(), name='OptionQuestionUpdate'),
 ]
+

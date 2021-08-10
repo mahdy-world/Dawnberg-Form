@@ -4,7 +4,7 @@ from .models import *
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.views import View
 from .forms import *
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 
 
 # Create your views here.
@@ -48,18 +48,18 @@ class FormUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/auth/login/'
     model = Form
     form_class = MainForm
-    template_name = 'Form/form_new.html'
-    success_url = reverse_lazy('Form:FormUpdate')
+    template_name = 'Form/form_edit.html'
+    success_url = reverse_lazy('Form:FormView')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['action_url'] = reverse_lazy('Form:update', kwargs={'pk': self.object.id})
+        context['action_url'] = reverse_lazy('Form:FormUpdate', kwargs={'pk': self.object.id})
+        return context
 
     def get_success_url(self):
-        if self.request.POST.get('url'):
-            return self.request.POST.get('url')
-        else:
-            self.success_url
+        return reverse('Form:FormView', kwargs={'pk': self.object.id})
+    
+   
 
 
 class FormView(LoginRequiredMixin, DetailView):
@@ -79,7 +79,7 @@ class OptionalQuestionCreate(LoginRequiredMixin, CreateView):
     model = Question
     form_class = QuestionForm
     template_name = 'Question/Question_new.html'
-    success_url = reverse_lazy('Form:FormList')
+    success_url = reverse_lazy('Form:FormView')
 
     def get_queryset(self):
         queryset = self.model.objects.get()
@@ -141,8 +141,42 @@ class TextQuestionCreate(LoginRequiredMixin, CreateView):
         return render(request, self.template_name , {'form':form })    
  '''
 
-# def get(self, request ):
-#     form = self.form_class(request.POST or None)
-#     queryset = self.model.objects.all()
+class TextQuestionUpdate(LoginRequiredMixin, UpdateView):
+    login_url = '/auth/login/'
+    model = Question
+    form_class = QuestionForm
+    template_name = 'Question/Question_update.html'
 
-#     return render(request, self.template_name , {'form':form , 'all':queryset} )
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_pk'] = self.request.GET.get('form_id')
+        context['action_url'] = reverse_lazy('Form:TextQuestionUpdate', kwargs={'pk': self.object.id})
+        return context
+        
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('Form:FormView', kwargs={'pk': self.object.form_id})
+
+class OptionQuestionUpdate(LoginRequiredMixin, UpdateView):
+    login_url = '/auth/login/'
+    model = Question
+    form_class = QuestionForm
+    template_name = 'Question/Question_update.html'
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.POST:
+            context["formset"] = OptionsFormSet(self.request.POST, instance=self.object)
+        else:
+            context['formset'] = OptionsFormSet()
+        return context
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['form_pk'] = self.request.GET.get('form_id')
+    #     context['action_url'] = reverse_lazy('Form:TextQuestionUpdate', kwargs={'pk': self.object.id})
+    #     return context
+        
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('Form:FormView', kwargs={'pk': self.object.form_id})
