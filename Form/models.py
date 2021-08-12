@@ -39,16 +39,16 @@ class QuestionOption(models.Model):
         return self.option
 
 
-class AnswerPerson(models.Model):
+class Instance(models.Model):
     form = models.ForeignKey(Form, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class Answer(models.Model):
-    form = models.ForeignKey(Form, on_delete=models.CASCADE, null=True)
+    instance = models.ForeignKey(Instance, on_delete=models.CASCADE, null=True)
     question = models.ForeignKey(Question, verbose_name='السؤال', on_delete=models.CASCADE)
-    text_answer = models.TextField(verbose_name='الإجابة')
-    optional_answer = models.TextField( verbose_name='الإجابة')
+    text_answer = models.TextField(verbose_name='الإجابة', null=True)
+    optional_answer = models.TextField(verbose_name='الإجابة', null=True)
 
     def __str__(self):
-        return str(self.id)
+        return str(self.instance.id)

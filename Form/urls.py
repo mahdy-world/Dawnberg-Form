@@ -15,5 +15,6 @@ urlpatterns = [
 
 
     path('form/view/<int:pk>/', AnswerView.as_view(), name='AnswerView'),
+    path('form/answer/<int:pk>/', guest_form, name='guest_form'),
 ]
 

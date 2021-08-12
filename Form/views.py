@@ -58,8 +58,6 @@ class FormUpdate(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('Form:FormView', kwargs={'pk': self.object.id})
-    
-   
 
 
 class FormView(LoginRequiredMixin, DetailView):
@@ -79,7 +77,9 @@ class OptionalQuestionCreate(LoginRequiredMixin, CreateView):
     model = Question
     form_class = QuestionForm
     template_name = 'Question/Question_new.html'
-    success_url = reverse_lazy('Form:FormView')
+
+    def get_success_url(self):
+        return reverse_lazy('Form:FormView', kwargs={'pk': self.request.POST.get('form_pk')})
 
     def get_queryset(self):
         queryset = self.model.objects.get()
@@ -103,7 +103,7 @@ class OptionalQuestionCreate(LoginRequiredMixin, CreateView):
             self.object = myform
             formset.instance = self.object
             formset.save()
-        return redirect(self.success_url)
+        return redirect(self.get_success_url())
 
 
 class TextQuestionCreate(LoginRequiredMixin, CreateView):
@@ -141,28 +141,28 @@ class TextQuestionCreate(LoginRequiredMixin, CreateView):
         return render(request, self.template_name , {'form':form })    
  '''
 
+
 class TextQuestionUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/auth/login/'
     model = Question
     form_class = QuestionForm
     template_name = 'Question/Question_update.html'
 
-    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form_pk'] = self.request.GET.get('form_id')
         context['action_url'] = reverse_lazy('Form:TextQuestionUpdate', kwargs={'pk': self.object.id})
         return context
-        
+
     def get_success_url(self, **kwargs):
         return reverse_lazy('Form:FormView', kwargs={'pk': self.object.form_id})
+
 
 class OptionQuestionUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/auth/login/'
     model = Question
     form_class = QuestionForm
     template_name = 'Question/Question_update.html'
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -177,9 +177,61 @@ class OptionQuestionUpdate(LoginRequiredMixin, UpdateView):
         context['form_pk'] = self.request.GET.get('form_id')
         context['action_url'] = reverse_lazy('Form:TextQuestionUpdate', kwargs={'pk': self.object.id})
         return context
-        
+
     def get_success_url(self, **kwargs):
         return reverse_lazy('Form:FormView', kwargs={'pk': self.object.form_id})
+
+
+def guest_form(request, pk):
+    form = Form.objects.get(id=pk)
+    instance = Instance.objects.create(form=Form.objects.get(id=pk))
+    questions = Question.objects.filter(form=form)
+    if request.POST:
+        optional_dict = {}
+        for question, answer in request.POST.items():
+            if question == 'csrfmiddlewaretoken':
+                continue
+            if answer == 'on':
+                # Optional Question
+                question_object = QuestionOption.objects.get(id=question).question
+                if str(question_object.id) in optional_dict.keys():
+                    old_value = optional_dict[str(question_object.id)]
+                    print('old:')
+                    print(old_value)
+                    print(optional_dict)
+                    new_value = optional_dict[str(question_object.id)].append(question)
+                    print('new:')
+                    print(new_value)
+                    print(optional_dict)
+                    optional_dict.update({str(question_object.id): new_value})
+                    print('last:')
+                    print(optional_dict)
+                else:
+                    optional_dict.update({str(question_object.id): [question]})
+                    print('answer added')
+                    print(optional_dict)
+            else:
+                # Text Question
+                question_object = Question.objects.get(id=question)
+                answer_object = Answer()
+                answer_object.instance = instance
+                answer_object.question = question_object
+                answer_object.text_answer = answer
+                answer_object.save()
+        for question, question_answer in optional_dict.items():
+            answer_object = Answer()
+            answer_object.instance = instance
+            answer_object.question = Question.objects.get(id=question)
+            answer_object.optional_answer = question_answer
+            answer_object.save()
+
+    context = {
+        'instance': instance,
+        'questions': questions,
+        'form': form,
+    }
+    return render(request, 'Answer/answer_page.html', context)
+
 
 class AnswerView(DetailView):
     model = Form
@@ -187,8 +239,9 @@ class AnswerView(DetailView):
     form_class = QuestionForm
 
     def get_context_data(self, **kwargs):
+        instance = Instance.objects.create()
         kwargs['forms'] = Form.objects.get(id=self.kwargs['pk'])
         kwargs['question'] = Question.objects.filter(form=self.kwargs['pk'])
-        
+        kwargs['instance'] = instance.id
+
         return super(AnswerView, self).get_context_data(**kwargs)
-  

@@ -35,7 +35,7 @@
                                     {% csrf_token %}
                                     {% bootstrap_form form %}
 
-                                    <input type="hidden" name="form_pk" value="{{ form_pk }}">
+                                    <input type="hidden" name="form_pk" value="{{ request.GET.form_id }}">
                                     {% if formset %}
                                         {{ formset.management_form }}
                                         <table class="table">
