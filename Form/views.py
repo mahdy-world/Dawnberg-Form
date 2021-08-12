@@ -172,11 +172,23 @@ class OptionQuestionUpdate(LoginRequiredMixin, UpdateView):
             context['formset'] = OptionsFormSet()
         return context
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['form_pk'] = self.request.GET.get('form_id')
-    #     context['action_url'] = reverse_lazy('Form:TextQuestionUpdate', kwargs={'pk': self.object.id})
-    #     return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_pk'] = self.request.GET.get('form_id')
+        context['action_url'] = reverse_lazy('Form:TextQuestionUpdate', kwargs={'pk': self.object.id})
+        return context
         
     def get_success_url(self, **kwargs):
         return reverse_lazy('Form:FormView', kwargs={'pk': self.object.form_id})
+
+class AnswerView(DetailView):
+    model = Form
+    template_name = 'Answer/answer_page.html'
+    form_class = QuestionForm
+
+    def get_context_data(self, **kwargs):
+        kwargs['forms'] = Form.objects.get(id=self.kwargs['pk'])
+        kwargs['question'] = Question.objects.filter(form=self.kwargs['pk'])
+        
+        return super(AnswerView, self).get_context_data(**kwargs)
+  
