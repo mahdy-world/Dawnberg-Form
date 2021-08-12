@@ -12,5 +12,8 @@ urlpatterns = [
     path('question/new/optional/<int:pk>/', OptionalQuestionCreate.as_view(), name='OptionalQuestionCreate'),
     path('question/edit/text/<int:pk>/', TextQuestionUpdate.as_view(), name='TextQuestionUpdate'),
     path('question/edit/option/<int:pk>/', OptionQuestionUpdate.as_view(), name='OptionQuestionUpdate'),
+
+
+    path('form/view/<int:pk>/', AnswerView.as_view(), name='AnswerView'),
 ]
 

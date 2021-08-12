@@ -18,6 +18,24 @@ class MainForm(forms.ModelForm):
                        'style': 'border: none; border-bottom: 2px solid #556ee6'})
         }
 
+# class AnswerForm(forms.ModelForm):
+#     class Meta:
+#         model = Answer
+        
+#         widgets = {
+
+                
+
+#             'text_answer': forms.TextInput(
+#                 attrs={'class': 'form-control', 'id': 'projectname', 'placeholder': 'Enter Form Title...',
+#                        'style': 'border: none; border-bottom: 2px solid #556ee6'}),
+#             'optional_answer': forms.TextInput(
+#                 attrs={'class': 'form-control', 'id': 'projectdesc', 'placeholder': 'Enter Form Discraption...',
+#                        'style': 'border: none; border-bottom: 2px solid #556ee6'})
+#         }
+
+
+        
 
 class QuestionForm(forms.ModelForm):
     class Meta:
@@ -33,3 +51,4 @@ class OptionsForm(forms.ModelForm):
 
 OptionsFormSet = inlineformset_factory(Question, QuestionOption,
                                        form=OptionsForm, extra=10)
+
