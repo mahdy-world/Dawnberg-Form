@@ -43,6 +43,9 @@ class Instance(models.Model):
     form = models.ForeignKey(Form, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return str(self.form.title)
+    
 
 class Answer(models.Model):
     instance = models.ForeignKey(Instance, on_delete=models.CASCADE, null=True)
@@ -51,4 +54,4 @@ class Answer(models.Model):
     optional_answer = models.TextField(verbose_name='الإجابة', null=True)
 
     def __str__(self):
-        return str(self.instance.id)
+        return str(self.question)
