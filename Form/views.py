@@ -196,20 +196,11 @@ def guest_form(request, pk):
                 question_object = QuestionOption.objects.get(id=question).question
                 if str(question_object.id) in optional_dict.keys():
                     old_value = optional_dict[str(question_object.id)]
-                    print('old:')
-                    print(old_value)
-                    print(optional_dict)
-                    new_value = optional_dict[str(question_object.id)].append(question)
-                    print('new:')
-                    print(new_value)
-                    print(optional_dict)
+                    optional_dict[str(question_object.id)].append(question)
+                    new_value = optional_dict[str(question_object.id)]
                     optional_dict.update({str(question_object.id): new_value})
-                    print('last:')
-                    print(optional_dict)
                 else:
                     optional_dict.update({str(question_object.id): [question]})
-                    print('answer added')
-                    print(optional_dict)
             else:
                 # Text Question
                 question_object = Question.objects.get(id=question)
