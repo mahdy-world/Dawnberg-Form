@@ -61,8 +61,9 @@ class Employee(models.Model):
     employe_contract = models.CharField(max_length=14, blank=True, null=True , verbose_name = "مدة عقد العمل")
     start_date = models.DateField(null=True, blank=True, verbose_name='تاريخ التعيين')
     end_date = models.DateField(null=True, blank=True, verbose_name='تاريخ انتهاء العقد')
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='حساب البرنامج')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='حساب الموظف')
     employee_type = models.IntegerField(choices=employee_types, null=True, blank=True, verbose_name='نوع الموظف')
+    created_by  = models.ForeignKey(User, on_delete=models.CASCADE , related_name="employee_created_by",verbose_name = "اضيف بواسطة")
     deleted = models.BooleanField(default=False, verbose_name='حذف')    
 
  
