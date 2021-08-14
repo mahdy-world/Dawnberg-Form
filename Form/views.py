@@ -224,15 +224,15 @@ def guest_form(request, pk):
     return render(request, 'Answer/answer_page.html', context)
 
 
-class AnswerView(DetailView):
-    model = Form
-    template_name = 'Answer/answer_page.html'
-    form_class = QuestionForm
+# class AnswerView(DetailView):
+#     model = Form
+#     template_name = 'Answer/answer_page.html'
+#     form_class = QuestionForm
 
-    def get_context_data(self, **kwargs):
-        instance = Instance.objects.create()
-        kwargs['forms'] = Form.objects.get(id=self.kwargs['pk'])
-        kwargs['question'] = Question.objects.filter(form=self.kwargs['pk'])
-        kwargs['instance'] = instance.id
+#     def get_context_data(self, **kwargs):
+#         instance = Instance.objects.create()
+#         kwargs['forms'] = Form.objects.get(id=self.kwargs['pk'])
+#         kwargs['question'] = Question.objects.filter(form=self.kwargs['pk'])
+#         kwargs['instance'] = instance.id
 
-        return super(AnswerView, self).get_context_data(**kwargs)
+#         return super(AnswerView, self).get_context_data(**kwargs)

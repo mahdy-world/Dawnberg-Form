@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'Auth',
     'Core',
     'Form',
+    'Employee',
     'bootstrap4'
 ]
 
