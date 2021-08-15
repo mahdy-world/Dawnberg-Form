@@ -51,11 +51,12 @@ class EmployeeUpdate(LoginRequiredMixin , UpdateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['title'] = 'Update Employee'
         context['action_url'] = reverse_lazy('Employee:EmployeeUpdate', kwargs={'pk': self.object.id})
         return context
 
     def get_success_url(self):
-        return reverse('Employee:EmployeeProfile', kwargs={'pk': self.object.id})
+        return reverse(self.success_url, kwargs={'pk': self.object.id})
 
         
 class EmployeeDelete(LoginRequiredMixin, UpdateView):

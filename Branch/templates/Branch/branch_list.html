@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+ 
+ 
+    <!-- Body -->
+    {% block body %}
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0 font-size-18">Branches List</h4>
+
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Branches</a></li>
+                                    <li class="breadcrumb-item active">Branches List</li>
+                                </ol>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>     
+                <!-- end page title -->
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="">
+                            <div class="table-responsive">
+                                <table class="table project-list-table table-nowrap table-centered table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" style="width: 100px">#</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Adress</th>
+                                            <th scope="col">Phone</th>
+                                            <th scope="col">Created By</th>
+                                            <th scope="col">Actions</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    {% if object_list %}
+                                            
+                                        {% for x in  object_list %}
+                                        <tr>
+                                            
+                                            <td>{{x.id}}</td>
+                                            <td>{{x.name}}</td>
+                                            <td>{{x.address}}</td>
+                                            <td>{{x.phone}}</td>
+                                            <td>{{x.created_by}}</td>
+                                            <td>
+                                                <a href="{% url 'Branch:BranchUpdate' x.id %}" class="btn btn-primary">Edit</a>
+                                                <a href="{% url 'Employee:EmployeeDelete' x.id %}" class="btn btn-danger">Delete</a>
+                                            </td>
+                                            
+                                        </tr>
+                                        {% endfor %}
+
+                                    {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+
+               
+                
+            </div> <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <script>document.write(new Date().getFullYear())</script>2021 © Skote.
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-sm-right d-none d-sm-block">
+                            Design &amp; Develop by Themesbrand
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    {% endblock body %}
+       
+       
