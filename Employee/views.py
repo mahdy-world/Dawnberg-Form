@@ -7,11 +7,21 @@ from django.views.generic import *
 from django.urls import reverse, reverse_lazy
 # Create your views here.
 
+
+class EmployeeList(LoginRequiredMixin, ListView):
+    login_url = '/auth/login/'
+    model = Employee
+    paginate_by = 100
+
+    def get_queryset(self):
+        queryset = self.model.objects.filter(deleted=False)
+        return queryset
+
 class EmployeeCreate(LoginRequiredMixin, CreateView):
     login_url = '/auth/login/'
     model = Employee
     form_class = EmployeeForm
-    template_name = 'employee_new.html'
+    template_name = 'Employee/employee_new.html'
 
     def get_queryset(self):
         queryset = self.model.objects.all()
@@ -19,7 +29,7 @@ class EmployeeCreate(LoginRequiredMixin, CreateView):
 
     def get(self, request):
         form = EmployeeForm(request.POST or None)
-        queryset = self.model.objects.all()
+        queryset = self.model.objects.filter(deleted=False)
         return render(request, self.template_name, {'form': form, 'all': queryset})
 
     def post(self, request):
@@ -31,5 +41,48 @@ class EmployeeCreate(LoginRequiredMixin, CreateView):
                 myform.save()
                 return redirect('Employee:EmployeeCreate')
 
+
+class EmployeeUpdate(LoginRequiredMixin , UpdateView):
+    login_url = '/auth/login/'
+    model = Employee
+    form_class = EmployeeForm
+    template_name = 'Employee/employee_edit.html'
+    success_url = reverse_lazy('Employee:EmployeeProfile')
     
-    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['action_url'] = reverse_lazy('Employee:EmployeeUpdate', kwargs={'pk': self.object.id})
+        return context
+
+    def get_success_url(self):
+        return reverse('Employee:EmployeeProfile', kwargs={'pk': self.object.id})
+
+        
+class EmployeeDelete(LoginRequiredMixin, UpdateView):
+    login_url = '/auth/login/'
+    model = Employee
+    form_class = EmployeeDeleteForm
+    template_name = 'Forms/form_template.html'
+    success_url = reverse_lazy('Employee:EmployeeList')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        context['action_url'] = reverse_lazy('Employee:EmployeeDelete', kwargs={'pk': self.object.id})
+        return context
+
+    def get_success_url(self):
+        if self.request.POST.get('url'):
+            return self.request.POST.get('url')
+        else:
+            return self.success_url
+
+
+class EmployeeProfile(LoginRequiredMixin,DeleteView):
+    login_url = '/auth/login/'
+    model = Employee
+    template_name = 'Employee/employee_profile.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs['employee'] = Employee.objects.get(id=self.kwargs['pk'])
+        return super(EmployeeProfile, self).get_context_data(**kwargs)   

@@ -420,7 +420,7 @@
                                 <a class="dropdown-item d-block" href="#"><span class="badge badge-success float-right">11</span><i class="bx bx-wrench font-size-16 align-middle mr-1"></i> <span key="t-settings">Settings</span></a>
                                 <a class="dropdown-item" href="#"><i class="bx bx-lock-open font-size-16 align-middle mr-1"></i> <span key="t-lock-screen">Lock screen</span></a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#"><i class="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i> <span key="t-logout">Logout</span></a>
+                                <a class="dropdown-item text-danger" href="{% url 'Auth:logout' %}"><i class="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i> <span key="t-logout">Logout</span></a>
                             </div>
                         </div>
                
@@ -472,6 +472,22 @@
                                     
                                 </ul>
                             </li>
+
+                            <li>
+                                <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                    <i class='bx bxs-business'></i>
+                                    <span key="t-layouts">Branches</span>
+                                </a>
+                                <ul class="sub-menu" aria-expanded="true">
+                                    <li>
+                                        <a href="{% url 'Form:FormList' %}" key="t-light-sidebar">Branch List</a>
+                                        <a href="{% url 'Form:FormCreate' %}" key="t-light-sidebar">Create New</a>
+                                       
+                                    </li>
+          
+                                    
+                                </ul>
+                            </li>
                             
 
                             <li>
@@ -481,7 +497,7 @@
                                 </a>
                                 <ul class="sub-menu" aria-expanded="true">
                                     <li>
-                                        <a href="" key="t-light-sidebar">Employees List</a>
+                                        <a href="{% url 'Employee:EmployeeList' %}" key="t-light-sidebar">Employees List</a>
                                         <a href="{% url 'Employee:EmployeeCreate' %}" key="t-light-sidebar">Create New</a>
                                        
                                     </li>

@@ -9,4 +9,8 @@ class EmployeeForm(forms.ModelForm):
         model = Employee
         exclude = ['deleted', 'created_by']
         
-        
+
+class EmployeeDeleteForm(forms.ModelForm):
+        class Meta:
+            model = Employee
+            fields = ['deleted']

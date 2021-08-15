@@ -1,6 +1,9 @@
 from django.shortcuts import redirect, render
 from django.views.generic import *
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.views import View
+from django.views.generic import *
 
 # Create your views here.
 
@@ -26,3 +29,9 @@ class Login(View):
         if request.user.is_authenticated:
             return redirect('Core:index')
         return render(request,'Auth/login.html')                   
+
+
+class Logout(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return redirect('Auth:login')
