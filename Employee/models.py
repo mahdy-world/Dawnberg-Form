@@ -53,6 +53,7 @@ class Employee(models.Model):
     image = models.ImageField(null = True , blank=True ,verbose_name="الصورةالشخصية")
     phone = models.CharField( max_length=14 , null=True , blank=True , verbose_name = "رقم الهاتف" )
     national_id = models.CharField(max_length=28, null=True, blank=True, verbose_name='رقم تحقيق الشخصية')
+    branch = models.ForeignKey(Branch, verbose_name="الفرع", blank= True , null=True, on_delete=models.CASCADE)
     religion = models.IntegerField(choices=religion_choices, null=True, blank=True, verbose_name='الديانة')
     military_state = models.IntegerField(choices=military_state_choices, null=True, blank=True, verbose_name='موقف التجنيد')
     relationship = models.IntegerField(choices=social_state_choices, null=True, blank=True, verbose_name='الحالة الاجتماعية')

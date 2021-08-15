@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
-{% load bootstrap4 %}
-
+ 
  
     <!-- Body -->
     {% block body %}
@@ -14,48 +13,22 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="page-title-box d-flex align-items-center justify-content-between">
-                            <h4 class="mb-0 font-size-18">Create New Employee</h4>
+                            <h4 class="mb-0 font-size-18">Forms List</h4>
 
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Employee</a></li>
-                                    <li class="breadcrumb-item active">Create New Employee</li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
+                                    <li class="breadcrumb-item active">Forms List</li>
                                 </ol>
                             </div>
-
+                            
                         </div>
                     </div>
-                </div>
+                </div>     
                 <!-- end page title -->
 
-                <!-- Create Form -->
                 <div class="row">
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-body">
-                                
-                                <form method="POST" enctype="multipart/form-data">
-                                    {% csrf_token %}
-                                    {% bootstrap_form form %}
-
-                                    
-                                        <div class="col-lg-10">
-                                            <button type="submit" class="btn btn-primary">Save</button>
-                                           
-                                        </div>
-                                       
-                                  
-                                </form>
-                                
-                               
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Create Form  -->
-                 
-               
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -66,14 +39,24 @@
                                                 <th scope="col">Photo</th>
                                                 <th scope="col">Name</th>
                                                 <th scope="col">Phone</th>
+                                                <th scope="col">National Id</th>
+                                                <th scope="col">Branch</th>
+                                                <th scope="col">Religion</th>
+                                                <th scope="col">Military State</th>
+                                                <th scope="col">Relationship</th>
+                                                <th scope="col">Salary</th>
+                                                <th scope="col">Commition</th>
+                                                <th scope="col">Employee Contract</th>
+                                                <th scope="col">Start Date</th>
+                                                <th scope="col">End Date</th>
+                                                <th scope="col">Created By</th>
                                                 <th scope="col">Employee Type</th>
-                                                
-                                                <th scope="col">Action</th>
-                                            </tr>
+                                                <th scope="col">Profile</th>
+                                                <th scope="col">Actions</th>
                                         </thead>
                                         <tbody>
                                            
-                                        {% for x in all %}
+                                        {% for x in object_list %}
                                                
                                             <tr>
                                                 <td>
@@ -90,20 +73,34 @@
                                                     
                                                 </td>
                                                 <td>{{x.phone}}</td>
+                                                <td>{{x.national_id}}</td>
+                                                <td>{{x.branch}}</td>
+                                                <td>{{x.get_religion_display}}</td>
+                                                <td>{{x.get_military_state_display}}</td>
+                                                <td>{{x.get_relationship_display}}</td>
+                                                <td>{{x.salary}}</td>
+                                                <td>{{x.commition}}</td>
+                                                <td>{{x.employe_contract}}</td>
+                                                <td>{{x.start_date}}</td>
+                                                <td>{{x.end_date}}</td>
+                                               
+                                                <td>{{x.created_by}}</td>
                                                 <td>
                                                     <div>
-                                                        <a href="#" class="badge badge-soft-primary font-size-11 m-1">{{x.employee_type}}</a>
+                                                        <a href="#" class="badge badge-soft-primary font-size-11 m-1">{{x.get_employee_type_display}}</a>
                                                        
                                                
                                                 <td>
                                                     <ul class="list-inline font-size-20 contact-links mb-0">
+                                                       
                                                         <li class="list-inline-item px-2">
-                                                            <a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Message"><i class="bx bx-message-square-dots"></i></a>
-                                                        </li>
-                                                        <li class="list-inline-item px-2">
-                                                            <a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Profile"><i class="bx bx-user-circle"></i></a>
+                                                            <a href="{% url 'Employee:EmployeeProfile' x.id %}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Profile"><i class="bx bx-user-circle"></i></a>
                                                         </li>
                                                     </ul>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'Employee:EmployeeUpdate' x.id %}" class="btn btn-primary">Edit</a>
+                                                    <a href="{% url 'Employee:EmployeeDelete' x.id %}" class="btn btn-danger">Delete</a>
                                                 </td>
                                            </tr>
                                            {% endfor %}
@@ -141,16 +138,11 @@
                         </div>
                     </div>
                
-                
-                    
                 </div>
                 <!-- end row -->
 
                 
-               
-             
-                <!-- end row -->
-
+                
             </div> <!-- container-fluid -->
         </div>
         <!-- End Page-content -->
