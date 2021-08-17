@@ -55,9 +55,9 @@ class Employee(models.Model):
         return self.name
 
 
-# class EmployeeFile(models.Model):
-#     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='الموظف')
-#     file = models.FileField(verbose_name='الملف')
+class EmployeeFile(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='الموظف')
+    file = models.FileField(verbose_name='الملف')
 
-#     def __str__(self):
-#         return self.file.name
+    def __str__(self):
+        return self.file.name
