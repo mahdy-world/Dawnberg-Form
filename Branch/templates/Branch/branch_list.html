@@ -32,7 +32,7 @@
                         <div class="">
                             <div class="table-responsive">
                                 <table class="table project-list-table table-nowrap table-centered table-borderless">
-                                    <thead>
+                                    <thead align="center">
                                         <tr>
                                             <th scope="col" style="width: 100px">#</th>
                                             <th scope="col">Name</th>
@@ -43,7 +43,7 @@
                                             
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody align="center">
                                         
                                     {% if object_list %}
                                             
@@ -57,7 +57,7 @@
                                             <td>{{x.created_by}}</td>
                                             <td>
                                                 <a href="{% url 'Branch:BranchUpdate' x.id %}" class="btn btn-primary">Edit</a>
-                                                <a href="{% url 'Employee:EmployeeDelete' x.id %}" class="btn btn-danger">Delete</a>
+                                                <a href="{% url 'Branch:BranchDelete' x.id %}" class="btn btn-danger">Delete</a>
                                             </td>
                                             
                                         </tr>

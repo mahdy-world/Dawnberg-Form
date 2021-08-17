@@ -61,3 +61,21 @@ class BranchCreate(LoginRequiredMixin, CreateView):
                 myform.created_by = request.user
                 myform.save()
                 return redirect('Branch:BranchList')
+
+class BranchDelete(LoginRequiredMixin, UpdateView):
+    login_url = '/auth/login/'
+    model = Branch
+    form_class = BranchDeleteForm
+    template_name = 'Branch/branch_delete.html'
+    success_url = reverse_lazy('Branch:BranchList')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['action_url'] = reverse_lazy('Branch:BranchDelete', kwargs={'pk': self.object.id})
+        return context
+
+    def get_success_url(self):
+        if self.request.POST.get('url'):
+            return self.request.POST.get('url')
+        else:
+            return self.success_url
