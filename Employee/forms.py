@@ -22,3 +22,17 @@ class EmployeeDeleteForm(forms.ModelForm):
         class Meta:
             model = Employee
             fields = ['deleted']
+
+
+class RegisterForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = [
+            'username',
+            'password',
+        ]
+        widgets = {
+            'password': forms.PasswordInput()
+        }
+
+
