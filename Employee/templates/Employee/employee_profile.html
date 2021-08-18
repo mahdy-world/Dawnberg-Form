@@ -53,8 +53,17 @@
                                         
                                         {% if request.user.is_superuser %}
                                         <div class="mt-4">
-                                            <a href="{% url 'Employee:EmployeeUpdate' employee.id %}" class="btn btn-primary waves-effect waves-light btn-sm">Edit Profile <i class="mdi mdi-arrow-right ml-1"></i></a>
+                                           
+                                            <a href="{% url 'Employee:EmployeeUpdate' employee.id %}" class="btn btn-primary waves-effect waves-light btn-sm mt-10">Edit Profile <i class="mdi mdi-arrow-right ml-1"></i></a>
                                             
+                                           
+                                                                                     
+                                             {% if employee.user %}
+                                             
+                                             {% else %}
+                                             <a style="margin-top: 10px;" href="{% url 'Employee:create_user_employee' employee.id %}" class="btn btn-danger waves-effect waves-light btn-sm ">Add Account <i class="mdi mdi-arrow-right ml-1"></i></a>
+                                             {% endif %}
+                                                    
                                         </div>
                                         
                                         {% endif %}
