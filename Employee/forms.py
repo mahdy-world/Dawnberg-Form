@@ -23,6 +23,7 @@ class EmployeeDeleteForm(forms.ModelForm):
             model = Employee
             fields = ['deleted']
 
+# <input type="text" name="name" maxlength="128" class="form-control" placeholder="الاسم" title="" required="" id="id_name">
 
 class RegisterForm(forms.ModelForm):
     class Meta:
@@ -32,7 +33,39 @@ class RegisterForm(forms.ModelForm):
             'password',
         ]
         widgets = {
-            'password': forms.PasswordInput()
+            'username':forms.TextInput(
+                attrs={
+                'class' :'form-control',
+                
+            }),
+            
+            'password': forms.PasswordInput(
+                attrs={
+                 'class' : 'form-control',
+
+                'id':'id_password'
+            })
         }
 
 
+class RegisterFormEdit(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = [
+            'username',
+            'password',
+        ]
+        widgets = {
+            'username':forms.TextInput(
+                attrs={
+                'class' :'form-control',
+                
+            }),
+            
+            'password': forms.PasswordInput(
+                attrs={
+                 'class' : 'form-control',
+
+                'id':'id_password'
+            })
+        }
