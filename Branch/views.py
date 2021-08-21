@@ -60,7 +60,7 @@ class BranchCreate(LoginRequiredMixin, CreateView):
                 myform = form.save(commit=False)
                 myform.created_by = request.user
                 myform.save()
-                return redirect('Branch:BranchList')
+                return redirect('Branch:BranchCreate')
 
 class BranchDelete(LoginRequiredMixin, UpdateView):
     login_url = '/auth/login/'

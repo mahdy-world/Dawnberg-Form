@@ -57,7 +57,7 @@ class EmployeeUpdate(LoginRequiredMixin , UpdateView):
     model = Employee
     form_class = EmployeeForm
     template_name = 'Employee/employee_edit.html'
-    success_url = reverse_lazy('Employee:EmployeeProfile')
+    success_url = reverse_lazy('Employee:EmployeeList')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -65,8 +65,13 @@ class EmployeeUpdate(LoginRequiredMixin , UpdateView):
         context['action_url'] = reverse_lazy('Employee:EmployeeUpdate', kwargs={'pk': self.object.id})
         return context
 
-    def get_success_url(self ):
-        return reverse(self.success_url, {'pk': self.object.id})
+    def get_success_url(self,):
+        if self.request.POST.get('url'):
+            return self.request.POST.get('url')
+        else:
+            return self.success_url
+   
+
 
         
 class EmployeeDelete(LoginRequiredMixin, UpdateView):
@@ -114,3 +119,4 @@ def create_user_employee(requset, pk):
             'form': form
         }
     return render(requset , 'Employee/user_create.html', context)
+

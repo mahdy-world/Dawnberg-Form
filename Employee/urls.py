@@ -9,7 +9,8 @@ urlpatterns = [
     path('employee/<int:pk>/view',EmployeeProfile.as_view(),name="EmployeeProfile"),
     path('employee/<int:pk>/edit' ,EmployeeUpdate.as_view(),name="EmployeeUpdate" ),
     path('employee/<int:pk>/delete/', EmployeeDelete.as_view(), name='EmployeeDelete'),
-    path('employee/<int:pk>/user/create/', create_user_employee, name='create_user_employee')
+    path('employee/<int:pk>/user/create/', create_user_employee, name='create_user_employee'),
+    
 
 ]
 
