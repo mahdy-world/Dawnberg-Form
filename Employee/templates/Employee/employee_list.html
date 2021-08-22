@@ -28,6 +28,13 @@
                 <!-- end page title -->
 
                 <div class="row">
+                    <div class="col-12 justify-content-between">
+                        <a href="{% url 'Employee:EmployeeCreate' %}" class="btn btn-success"> Create New</a>
+                    </div>
+                   
+                </div>  
+
+                <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
@@ -36,19 +43,17 @@
                                         <thead class="thead-light" align="center">
                                             <tr>
                                                 <th scope="col" style="width: 70px;">#</th>
-                                                <th scope="col">Photo</th>
+                                                
                                                 <th scope="col">Name</th>
                                                 <th scope="col">Phone</th>
                                                 <th scope="col">National Id</th>
                                                 <th scope="col">Branch</th>
-                                                <th scope="col">Religion</th>
-                                                <th scope="col">Military State</th>
-                                                <th scope="col">Relationship</th>
+                                                
+                                                
                                                 <th scope="col">Salary</th>
                                                 <th scope="col">Commition</th>
                                                 <th scope="col">Employee Contract</th>
-                                                <th scope="col">Start Date</th>
-                                                <th scope="col">End Date</th>
+                                                
                                                 <th scope="col">Created By</th>
                                                 <th scope="col">Employee Type</th>
                                                 <th scope="col">Profile</th>
@@ -62,12 +67,7 @@
                                                 <td>
                                                     {{x.id}}
                                                 </td>
-                                                <td>
-                                                   
-                                                    <div>
-                                                        {% if x.img %}<img class="rounded-circle avatar-xs" src="{{x.image.url}}" alt="">{% endif %}
-                                                    </div>
-                                                </td>
+
                                                 <td>
                                                     <h5 class="font-size-14 mb-1"><a href="#" class="text-dark">{{x.name}}</a></h5>
                                                     
@@ -75,14 +75,11 @@
                                                 <td>{{x.phone}}</td>
                                                 <td>{{x.national_id}}</td>
                                                 <td>{{x.branch}}</td>
-                                                <td>{{x.get_religion_display}}</td>
-                                                <td>{{x.get_military_state_display}}</td>
-                                                <td>{{x.get_relationship_display}}</td>
+                                                
                                                 <td>{{x.salary}}</td>
                                                 <td>{{x.commition}}</td>
                                                 <td>{{x.employe_contract}}</td>
-                                                <td>{{x.start_date}}</td>
-                                                <td>{{x.end_date}}</td>
+                                               
                                                
                                                 <td>{{x.created_by}}</td>
                                                 <td>
