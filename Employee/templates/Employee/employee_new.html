@@ -83,7 +83,7 @@
                                                 <td>
                                                    
                                                     <div>
-                                                        <img class="rounded-circle avatar-xs" src="{{x.image.url}}" alt="">
+                                                        {% if x.image %}<img class="rounded-circle avatar-xs" src="{{x.image.url}}" alt="">{% endif %}
                                                     </div>
                                                 </td>
                                                 <td>

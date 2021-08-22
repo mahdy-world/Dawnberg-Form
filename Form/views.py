@@ -188,6 +188,7 @@ def guest_form(request, pk):
     questions = Question.objects.filter(form=form)
     if request.POST:
         optional_dict = {}
+        request.POST.items()
         for question, answer in request.POST.items():
             if question == 'csrfmiddlewaretoken':
                 continue
@@ -223,7 +224,6 @@ def guest_form(request, pk):
     }
     return render(request, 'Answer/answer_page.html', context)
 
-
 # class AnswerView(DetailView):
 #     model = Form
 #     template_name = 'Answer/answer_page.html'
@@ -236,3 +236,8 @@ def guest_form(request, pk):
 #         kwargs['instance'] = instance.id
 
 #         return super(AnswerView, self).get_context_data(**kwargs)
+
+
+class AnswerList(DetailView):
+    model = Form
+    template_name = 'Answer/answer_list.html'
