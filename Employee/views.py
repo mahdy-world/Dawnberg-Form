@@ -33,14 +33,14 @@ class EmployeeCreate(LoginRequiredMixin, CreateView):
     form_class = EmployeeForm
     template_name = 'Employee/employee_new.html'
 
-    def get_queryset(self):
-        queryset = self.model.objects.all()
-        return queryset
+    # def get_queryset(self):
+    #     queryset = self.model.objects.all()
+    #     return queryset
 
-    def get(self, request):
-        form = EmployeeForm(request.POST or None)
-        queryset = self.model.objects.filter(deleted=False)
-        return render(request, self.template_name, {'form': form, 'all': queryset})
+    # def get(self, request):
+    #     form = EmployeeForm(request.POST or None)
+    #     queryset = self.model.objects.filter(deleted=False)
+    #     return render(request, self.template_name, {'form': form, 'all': queryset})
 
     def post(self, request):
         if request.method == 'POST':

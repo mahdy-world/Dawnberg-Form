@@ -52,3 +52,20 @@ class OptionsForm(forms.ModelForm):
 OptionsFormSet = inlineformset_factory(Question, QuestionOption,
                                        form=OptionsForm, extra=10)
 
+
+class CallForm(forms.ModelForm):
+    class Meta:
+        model = InstanceCall
+        fields = ['status' , 'summary','employee' ,'deleted' ]
+
+class CommentForm(forms .ModelForm):
+
+    class Meta:
+        model = InstanceComment
+        fields = ['comment' , 'deleted']
+
+class ConvertForm(forms.ModelForm):
+    class Meta:
+        model = Instance
+        fields = ['assigned_employee' ,'deleted']
+    

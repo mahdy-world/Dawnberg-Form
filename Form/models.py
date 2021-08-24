@@ -65,8 +65,8 @@ class Instance(models.Model):
 class Answer(models.Model):
     instance = models.ForeignKey(Instance, on_delete=models.CASCADE, null=True)
     question = models.ForeignKey(Question, verbose_name='السؤال', on_delete=models.CASCADE)
-    text_answer = models.TextField(verbose_name='الإجابة', null=True)
-    optional_answer = models.TextField(verbose_name='الإجابة', null=True)
+    text_answer = models.TextField(verbose_name='الإجابة', null=True , blank=True)
+    optional_answer = models.TextField(verbose_name=' (اختيار من متعدد)الإجابة', null=True , blank=True)
     deleted = models.BooleanField(default=False, verbose_name='حذف')
 
     def __str__(self):
@@ -79,8 +79,8 @@ class Answer(models.Model):
 class InstanceComment(models.Model):
     instance = models.ForeignKey(Instance, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    comment = models.TextField()
-    timestamp = models.DateTimeField()
+    comment = models.TextField(null=True ,blank=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
     deleted = models.BooleanField(default=False, verbose_name='حذف')
 
 
@@ -96,7 +96,7 @@ class InstanceCall(models.Model):
     status = models.IntegerField(choices=call_status)
     summary = models.TextField(null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
-    deleted = models.BooleanField(default=False, verbose_name='حذف')
+    deleted = models.BooleanField(default=False, )
 
     def __str__(self):
         return str(self.id)

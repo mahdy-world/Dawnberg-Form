@@ -59,8 +59,7 @@
                                             
                                                                                         
                                                 {% if employee.user %}
-                                                <a style="margin-top: 10px;" href="{% url 'Employee:UserEdit' employee.user.id %}" class="btn btn-primary waves-effect waves-light btn-sm mt-10">Edit User  <i class="mdi mdi-arrow-right ml-1"></i></a>
-                                                {% else %}
+                                                
                                                 <a style="margin-top: 10px;" href="{% url 'Employee:create_user_employee' employee.id %}" class="btn btn-danger waves-effect waves-light btn-sm ">Add Account <i class="mdi mdi-arrow-right ml-1"></i></a>
                                                 {% endif %}
                                                         
@@ -76,6 +75,7 @@
                         </div>
                         <!-- end card -->
 
+                        <!-- Personal data -->
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title mb-4"> <i class="fa fa-user"> </i> Personal Information</h4>
@@ -130,8 +130,9 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- end card -->
+                        <!-- End Personal data -->
 
+                        <!-- Appointment Date -->
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title mb-4"> <i class="fas fa-briefcase "></i> </i> Appointment Data
@@ -143,11 +144,11 @@
                                         <tbody>
                                             <tr>
                                                 <th scope="col">Salary</th>
-                                                <td>{{employee.salary}}</td>
+                                                <td>{{employee.salary}} <i class="fas fa-dollar-sign"></i></td>
                                             </tr>
                                             <tr>
                                                 <th scope="col">Commition</th>
-                                                <td>{{employee.comition}}</td>
+                                                <td>{{employee.commition}} <i class="fas fa-dollar-sign"></i></td>
                                             </tr>
                                             <tr>
                                                <th scope="col">Employee Contracte</th>
@@ -171,7 +172,7 @@
                                 </div>
                             </div>
                         </div> 
-                        <!-- end card -->
+                        <!-- End  Appointment Date-->
                     </div>
 
                    

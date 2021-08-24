@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+
+ 
+    <!-- Body -->
+    {% block body %}
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0 font-size-18">Create New Comment</h4>
+
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Comment</a></li>
+                                    <li class="breadcrumb-item active">Create New Comment</li>
+                                </ol>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <!-- Create Form -->
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Create New Comment</h4>
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    {% bootstrap_form form %}
+
+                                    
+                                        <div class="col-lg-10">
+                                            <button type="submit" class="btn btn-primary">Save Form</button>
+                                           
+                                        </div>
+                                       
+                                  
+                                </form>
+                                
+                               
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Create Form  -->
+                    
+                       <!-- Call tools -->
+                       <!-- <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title mb-4"> <i class="fa fa-user"> </i> Call Information</h4>
+        
+                                        
+                                        <div class="table-responsive">
+                                            <table class="table table-nowrap mb-0">
+                                                <tbody>
+                                                    
+                                                    <tr>
+                                                        <td>
+                                                            <i class="fa fa-mobile"></i> 657887878
+                                                        </td>
+                                                     
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>
+                                                            <i class="fas fa-envelope"></i> mmldk@yahoo.com
+                                                        </td>
+                                                     
+                                                    </tr>
+                                                
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <a href="tel:0101" title="Phone Call" class="btn btn-info">
+                                    <i class="fa fa-mobile"></i>
+                                </a>
+
+                                <a href="https://wa.me/20101" title="Whatsapp" class="btn btn-success" target="_blank">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+
+                                <a href="https://m.me/None" title="Email" class="btn btn-primary" target="_blank">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                                
+                               
+
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- end call tools -->
+                </div>
+                <!-- end row -->
+
+                
+               
+             
+                <!-- end row -->
+
+            </div> <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <script>document.write(new Date().getFullYear())</script>2021 © Skote.
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-sm-right d-none d-sm-block">
+                            Design &amp; Develop by Themesbrand
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    {% endblock body %}
+       
+       

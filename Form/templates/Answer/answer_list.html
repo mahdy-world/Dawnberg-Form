@@ -1,49 +1,270 @@
+{% extends "base.html" %}
 
-{% load bootstrap4 %}
-{% block body %}
-    <div class="row">
-        <div class="card">
-            <div class="card-header">
-                <div class="card-title">
-                    {{ object }}
+
+    <!-- Body -->
+    {% block body %}
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0 font-size-18">Answer List</h4>
+
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Answeres</a></li>
+                                    <li class="breadcrumb-item active">Answeres List</li>
+                                </ol>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>     
+                <!-- end page title -->
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="">
+                            <div class="table-responsive">
+                                <table class="table project-list-table table-nowrap table-centered table-borderless">
+                                    <thead align="center">
+                                        <tr>
+                                            <th scope="col" style="width: 100px">#</th>
+                                            <th scope="col">Time </th>
+                                            <th scope="col"><h3 class="font-size-14"><i class="fas fa-user"></i> Employee </h3></th>
+                                            {% for x in object.question_set.all %}
+                                                <td>
+                                                    {{ x }}
+                                                </td>
+                                            {% endfor %}
+                                            <!-- Call  -->
+                                            <th scope="col"><h3 class=" font-size-14"> <i class="fas fa-phone-volume"></i> Call Status</h3> </th>
+                                            <th scope="col"><h3 class=" font-size-14"><i class="fas fa-phone-volume"></i> Summary</h3></th>
+                                            <th scope="col"><h3 class="  font-size-14"> <i class="fas fa-phone-volume"></i> Call Date</h3> </th>
+                                            <th scope="col"><h3 class="  font-size-14"><i class="fas fa-phone-volume"></i> Call Employee</h3></th>
+                                             
+                                            <!-- Comments -->
+                                            <th scope="col"><h3 class=" font-size-14"> <i class="fas fa-comment"></i> Comment</h3></th>
+                                            <th scope="col"><h3 class=" font-size-14"> <i class="fas fa-comment"></i> Comment Date</h3></th>
+                                            <th scope="col"><h3 class=" font-size-14"> <i class="fas fa-comment"></i> Commented By</h3></th>
+
+                                            <!-- Actions -->
+                                            <th scope="col"><h3 class="font-size-14"><i class="fas fa-user-cog"></i> Actions </h3></th>
+                                        </tr>
+
+
+                                    </thead>
+                                    <tbody align="center">
+                                       {% for answer in object.instance_set.all %}
+                                       
+                                            <tr>
+                                                <td>{{ answer.id }}</td>
+                                                <td>{{ answer.created_at.astimezone.date.isoformat }}</td>
+                                                <td>{{ answer.assigned_employee }}</td>
+                                                {% for x in answer.answer_set.all %}
+                                                    <td>
+                                                        {% if x.text_answer %}
+                                                            {{ x.text_answer }}
+
+                                                       
+
+                                                        {% endif %}
+
+                                                        {% if x.optional_answer %}
+                                                            {% for option in x.optional_answer %}
+                                                                {{ option }}
+                                                                
+                                                            {% endfor %}
+                                                            
+
+                                                        {% endif %}
+                                                        
+                                                    </td>
+
+                                                {% endfor %}
+
+                                                <!-- Check if return with call data -->
+                                                {% if answer.instancecall_set.all %}
+                                                    
+                                                <!-- loop in InstanceCall model  -->
+                                                    {% for x in answer.instancecall_set.all %}
+                                                            
+                                                        
+                                                        <td> 
+
+                                                            
+                                                            {% if x.status %}
+
+                                                                {% if x.status == 1 %}
+                                                                <h5 class="text-truncate font-size-18 badge badge-success">{{x.get_status_display}}</h5>   
+                                                                {% elif x.status == 2 %}
+                                                                <h5 class="text-truncate font-size-18 badge badge-danger">{{x.get_status_display}}</h5> 
+                                                                {% elif x.status == 3 %}    
+                                                                <h5 class="text-truncate font-size-18 badge badge-info">{{x.get_status_display}}</h5>
+                                                                {% elif x.status == 4 %}
+                                                                <h5 class="text-truncate font-size-18 badge badge-warning">{{x.get_status_display}}</h5>
+                                                                {% endif %}
+                                                                
+                                                            {% else %}
+                                                                <h5 class="text-truncate font-size-18">لا يوجد</h5>
+                                                            {% endif %}
+                                                                
+
+                                                            
+                                                                
+                                                        
+                                                        </td>
+
+                                                        <td>
+                                                            
+                                                            {% if x.summary   %}
+                                                                {{ x.summary }}
+                                                            {% else %}
+                                                                <h5 class="text-truncate font-size-18">لا يوجد</h5>
+                                                            {% endif %}
+                                                                
+                                                            
+                                                        </td>
+
+                                                        <td>
+                                                            {% if x.timestamp   %}
+                                                                {{  x.timestamp }}
+                                                            {% else %}
+                                                                <h5 class="text-truncate font-size-18">لا يوجد</h5>
+                                                            {% endif %}
+                                                                
+                                                            
+                                                        </td>
+
+                                                        <td>
+                                                            {% if x.employee   %}
+                                                                {{ x.employee }}
+                                                            {% else %}
+                                                                <h5 class="text-truncate font-size-18">لا يوجد</h5>
+                                                            {% endif %}
+                                                            
+                                                        </td>
+
+                                                       
+                                              
+
+                                                        {% for y in answer.instancecomment_set.all %}
+                                                            
+                                                        <td>
+                                                            {% if y.comment %}
+                                                            {{y.comment}}
+                                                            {% else %}
+                                                            <h5 class="text-truncate font-size-18">لا يوجد</h5>
+
+                                                            {% endif %}
+                                                        </td>
+
+                                                        <td>
+                                                            {% if y.timestamp %}
+                                                            {{y.timestamp}}
+                                                            {% else %}
+                                                            <h5 class="text-truncate font-size-18">لا يوجد</h5>
+
+                                                            {% endif %}
+                                                        </td>
+
+                                                        <td>
+                                                            {% if y.user %}
+                                                            {{y.user}}
+                                                            {% else %}
+                                                            <h5 class="text-truncate font-size-18">لا يوجد</h5>
+
+                                                            {% endif %}
+                                                        </td>
+
+                                                        
+
+                                                        <td>
+                                                            
+                                                            
+                                                            <a href="{% url 'Form:CallUpdate' x.id %}" title="Call Details" class="btn btn-primary" id="sa-warning">  <i class="fas fa-phone-volume"></i> </a>
+                                                            <a href="{% url 'Form:CommentUpdate' y.id %}" title="Comment Details" class="btn btn-info"><i class="fas fa-comment"></i></a>
+                                                            <a href="{% url 'Form:Convert' answer.id %}" title="Convert" class="btn btn-warning"><i class="fas fa-share"></i></a>
+                                                            <form method="post">
+                                                                {% csrf_token %}
+                                                                <input name="take" type="text" value="{{answer.id}}" hidden>
+                                                                <button type="submit" name="submit"  class="btn btn-success"><i class="fas fa-handshake"></i></button>
+                                                            </form> 
+                                                        </td>
+
+                                                        {% endfor %}
+
+                                                        {% endfor %}
+                                                {% else %}
+
+                                                        <td><h5 class="text-truncate font-size-18">لا يوجد</h5></td>
+                                                        <td><h5 class="text-truncate font-size-18">لا يوجد</h5></td>
+                                                        <td><h5 class="text-truncate font-size-18">لا يوجد</h5></td>
+                                                        <td><h5 class="text-truncate font-size-18">لا يوجد</h5></td>
+                                                        <td><h5 class="text-truncate font-size-18">لا يوجد</h5></td>
+                                                        <td><h5 class="text-truncate font-size-18">لا يوجد</h5></td>
+                                                        <td><h5 class="text-truncate font-size-18">لا يوجد</h5></td>
+                                                        <td><h5 class="text-truncate font-size-18">لا يوجد</h5></td>
+                                                        <td><h5 class="text-truncate font-size-18">لا يوجد</h5></td>
+                                                        <td><h5 class="text-truncate font-size-18">لا يوجد</h5></td>
+                                                        <td><h5 class="text-truncate font-size-18">لا يوجد</h5></td>
+                                                        <td><h5 class="text-truncate font-size-18">لا يوجد</h5></td>
+                                                        <td>
+                                                            <a href="{% url 'Form:AddCall' answer.id %}" class="btn btn-primary" id="sa-warning">  <i class="fas fa-phone-volume"></i> </a>
+                                                            <a href="{% url 'Form:AddComment' answer.id %}" class="btn btn-info"><i class="fas fa-comment"></i></a>
+                                                            <a href="{% url 'Form:Convert' answer.id %}" class="btn btn-warning"><i class="fas fa-share"></i></a>
+                                                            
+                                                            
+                                                        </td>
+
+
+                                                {% endif %}
+                                                    
+
+                                            </tr>
+                                            
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="text-center my-3">
+                            <a href="javascript:void(0);" class="text-success"><i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more </a>
+                        </div>
+                    </div> <!-- end col-->
+                </div>
+                <!-- end row -->
+                
+            </div> <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <script>document.write(new Date().getFullYear())</script>2021 © Skote.
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-sm-right d-none d-sm-block">
+                            Design &amp; Develop by Themesbrand
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="card-body table-responsive">
-                <table class="table table-hover" style="border: 1px;">
-                    <tr>
-                        <td>#</td>
-                        <td>Time</td>
-                        <td>Employee</td>
-                        {% for x in object.question_set.all %}
-                            <td>
-                                {{ x }}
-                            </td>
-                        {% endfor %}
-                        <td>Calls</td>
-                        <td>Actions</td>
-                    </tr>
-                    {% for answer in object.instance_set.all %}
-                        <tr>
-                            <td>{{ answer.id }}</td>
-                            <td>{{ answer.created_at.astimezone.date.isoformat }}</td>
-                            <td>{{ answer.assigned_employee }}</td>
-                            {% for x in answer.answer_set.all %}
-                                <td>
-                                    {% if x.text_answer %}
-                                        {{ x.text_answer }}
-                                    {% endif %}
-
-                                    {% if x.optional_answer %}
-                                        {% for option in x.optional_answer %}
-                                            {{ option }}
-                                        {% endfor %}
-                                    {% endif %}
-                                </td>
-                            {% endfor %}
-                        </tr>
-                    {% endfor %}
-                </table>
-            </div>
-        </div>
+        </footer>
     </div>
-{% endblock %}
+    {% endblock body %}
+       
+       
