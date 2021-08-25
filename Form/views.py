@@ -317,15 +317,12 @@ class Convert(LoginRequiredMixin, UpdateView):
     def get_success_url(self, **kwargs):
         return reverse_lazy('Form:AnswerList', kwargs={'pk': self.object.form.id})        
 
-def take(request):
-    
-    if request.method == 'post':
-        instance = Instance.objects.get(id= request.POST['take'])
+def take(request ,pk):
+    if request.method == "POST":
+        instance = Instance.objects.get(id= request.POST.get("take"))
         instance.assigned_employee = request.user
         instance.save()
-        print("hi")
-
-        return redirect('Auth:login')
+        return redirect('Form:AnswerList' , pk=instance.form.id)
 
        
 

@@ -27,12 +27,12 @@
                 <!-- end page title -->
 
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12" >
                         <div class="">
                             <div class="table-responsive">
                                 <table class="table project-list-table table-nowrap table-centered table-borderless">
                                     <thead align="center">
-                                        <tr>
+                                        <tr >
                                             <th scope="col" style="width: 100px">#</th>
                                             <th scope="col">Time </th>
                                             <th scope="col"><h3 class="font-size-14"><i class="fas fa-user"></i> Employee </h3></th>
@@ -64,7 +64,7 @@
                                             <tr>
                                                 <td>{{ answer.id }}</td>
                                                 <td>{{ answer.created_at.astimezone.date.isoformat }}</td>
-                                                <td>{{ answer.assigned_employee }}</td>
+                                                <td><i class="fas fa-user" style="color: rgb(16, 63, 151);"></i> {{ answer.assigned_employee }}</td>
                                                 {% for x in answer.answer_set.all %}
                                                     <td>
                                                         {% if x.text_answer %}
@@ -142,7 +142,7 @@
 
                                                         <td>
                                                             {% if x.employee   %}
-                                                                {{ x.employee }}
+                                                            <i class="fas fa-user" style="color: rgb(16, 63, 151);"></i> {{ x.employee }}
                                                             {% else %}
                                                                 <h5 class="text-truncate font-size-18">لا يوجد</h5>
                                                             {% endif %}
@@ -174,7 +174,7 @@
 
                                                         <td>
                                                             {% if y.user %}
-                                                            {{y.user}}
+                                                            <i class="fas fa-user" style="color: rgb(16, 63, 151);"></i>{{y.user}}
                                                             {% else %}
                                                             <h5 class="text-truncate font-size-18">لا يوجد</h5>
 
@@ -182,20 +182,21 @@
                                                         </td>
 
                                                         
+                                                       
+                                                              
+                                                            <td>
+                                                            <form action="{% url 'Form:Take' answer.id %}" method="POST" >
+                                                            {% csrf_token %}  
+                                                                
+                                                                <a href="{% url 'Form:CallUpdate' x.id %}" title="Call Details" class="btn btn-primary" id="sa-warning">  <i class="fas fa-phone-volume"></i> </a>
+                                                                <a href="{% url 'Form:CommentUpdate' y.id %}" title="Comment Details" class="btn btn-info"><i class="fas fa-comment"></i></a>
+                                                                <a href="{% url 'Form:Convert' answer.id %}" title="Convert" class="btn btn-warning"><i class="fas fa-share"></i></a>
+                                                                <button title="Take"  type="submit" name="take" value="{{answer.id}}"  class="btn btn-success"><i class="fas fa-handshake"></i></button>
+                                                                <a href="{% url 'Form:Convert' answer.id %}" title="Delete" class="btn btn-danger"><i class="fa fa-trash"></i></a>
 
-                                                        <td>
-                                                            
-                                                            
-                                                            <a href="{% url 'Form:CallUpdate' x.id %}" title="Call Details" class="btn btn-primary" id="sa-warning">  <i class="fas fa-phone-volume"></i> </a>
-                                                            <a href="{% url 'Form:CommentUpdate' y.id %}" title="Comment Details" class="btn btn-info"><i class="fas fa-comment"></i></a>
-                                                            <a href="{% url 'Form:Convert' answer.id %}" title="Convert" class="btn btn-warning"><i class="fas fa-share"></i></a>
-                                                            <form method="post">
-                                                                {% csrf_token %}
-                                                                <input name="take" type="text" value="{{answer.id}}" hidden>
-                                                                <button type="submit" name="submit"  class="btn btn-success"><i class="fas fa-handshake"></i></button>
                                                             </form> 
-                                                        </td>
-
+                                                            </td>
+                                                        
                                                         {% endfor %}
 
                                                         {% endfor %}

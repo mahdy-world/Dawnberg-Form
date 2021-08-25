@@ -26,7 +26,7 @@ urlpatterns = [
     path('form/<int:pk>/update_comment/', CommentUpdate.as_view() , name='CommentUpdate'),
 
     path('form/<int:pk>/convert/' , Convert.as_view() , name='Convert'),
-    path('form/answer/take/',take, name='Take'),
+    path('form/<int:pk>/take/',take, name='Take'),
     
 
 ]
