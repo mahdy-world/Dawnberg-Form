@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import *
 from .models import *
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
@@ -188,7 +188,6 @@ def guest_form(request, pk):
     questions = Question.objects.filter(form=form)
     if request.POST:
         optional_dict = {}
-        request.POST.items()
         for question, answer in request.POST.items():
             if question == 'csrfmiddlewaretoken':
                 continue
@@ -210,13 +209,15 @@ def guest_form(request, pk):
                 answer_object.question = question_object
                 answer_object.text_answer = answer
                 answer_object.save()
+                print(answer_object)
+            
         for question, question_answer in optional_dict.items():
             answer_object = Answer()
             answer_object.instance = instance
             answer_object.question = Question.objects.get(id=question)
             answer_object.optional_answer = question_answer
             answer_object.save()
-
+           
     context = {
         'instance': instance,
         'questions': questions,
@@ -224,20 +225,108 @@ def guest_form(request, pk):
     }
     return render(request, 'Answer/answer_page.html', context)
 
-# class AnswerView(DetailView):
-#     model = Form
-#     template_name = 'Answer/answer_page.html'
-#     form_class = QuestionForm
+def thank_you(request):
+    return render(request, 'Answer/thankyou.html' )
 
-#     def get_context_data(self, **kwargs):
-#         instance = Instance.objects.create()
-#         kwargs['forms'] = Form.objects.get(id=self.kwargs['pk'])
-#         kwargs['question'] = Question.objects.filter(form=self.kwargs['pk'])
-#         kwargs['instance'] = instance.id
 
-#         return super(AnswerView, self).get_context_data(**kwargs)
 
+
+def add_call(request , pk ):
+    instance = get_object_or_404(Instance , id=pk)
+    form = CallForm(request.POST or None) 
+    if form.is_valid():
+        call = form.save(commit=False)
+        call.employee = request.user
+        call.instance = instance
+        call.save()
+        return redirect('Form:AnswerList' , pk=instance.form.id)
+    context = {
+        'form': form
+    }
+    return render(request , 'Answer/add_call.html' , context)  
+
+
+def add_comment(request , pk ):
+    instance = get_object_or_404(Instance , id=pk)
+    form = CommentForm(request.POST or None) 
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.user = request.user
+        comment.instance = instance
+        comment.save()
+        return redirect('Form:AnswerList' , pk=instance.form.id)
+    context = {
+        'form': form
+    }
+    return render(request , 'Answer/add_comment.html' , context)
+
+# def  convert(request ,pk):
+#     instance_id = get_object_or_404(Form , id=pk)
+#     form = ConvertForm(request.POST or None)
+#     if form.is_valid():
+#         instance = form.save(commit=False)
+#         instance.form = instance_id
+#         instance.save()
+#         return redirect('Form:AnswerList' , pk=instance.form.id)
+#     context = {
+#         'form':form
+#     }    
+#     return render(request, 'Answer/covert.html' , context)
+class CallUpdate(LoginRequiredMixin, UpdateView):
+    login_url = '/auth/login/'
+    model = InstanceCall
+    form_class = CallForm
+    template_name = 'Answer/update_call.html'
+    success_url = reverse_lazy('Form:CallUpdate')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['action_url'] = reverse_lazy('Form:CallUpdate', kwargs={'pk': self.object.id})
+        return context
+    
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('Form:AnswerList', kwargs={'pk': self.object.instance.form.id})
+
+class CommentUpdate(LoginRequiredMixin, UpdateView):
+    login_url = '/auth/login/'
+    model = InstanceComment
+    form_class = CommentForm
+    template_name = 'Answer/update_comment.html'
+    success_url = reverse_lazy('Form:CommentUpdate')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['action_url'] = reverse_lazy('Form:CommentUpdate', kwargs={'pk': self.object.id})
+        return context
+    
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('Form:AnswerList', kwargs={'pk': self.object.instance.form.id})
+
+class Convert(LoginRequiredMixin, UpdateView):
+    login_url = '/auth/login/'
+    model = Instance
+    form_class = ConvertForm
+    template_name = 'Answer/convert.html'
+    success_url = reverse_lazy('Form:Convert')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['action_url'] = reverse_lazy('Form:Convert', kwargs={'pk': self.object.id})
+        return context
+    
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('Form:AnswerList', kwargs={'pk': self.object.form.id})        
+
+def take(request ,pk):
+    if request.method == "POST":
+        instance = Instance.objects.get(id= request.POST.get("take"))
+        instance.assigned_employee = request.user
+        instance.save()
+        return redirect('Form:AnswerList' , pk=instance.form.id)
+
+       
 
 class AnswerList(DetailView):
     model = Form
     template_name = 'Answer/answer_list.html'
+

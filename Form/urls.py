@@ -16,6 +16,18 @@ urlpatterns = [
 
     
     path('form/answer/<int:pk>/', guest_form, name='guest_form'),
+    path('form/answer/thankyou/', thank_you , name="thankyou"),
     path('form/<int:pk>/answer/list/', AnswerList.as_view(), name='AnswerList'),
+
+    path('form/<int:pk>/add_call/' , add_call ,name='AddCall'),
+    path('form/<int:pk>/update_call/', CallUpdate.as_view() , name='CallUpdate'),
+
+    path('form/<int:pk>/add_comment/' , add_comment ,name='AddComment'),
+    path('form/<int:pk>/update_comment/', CommentUpdate.as_view() , name='CommentUpdate'),
+
+    path('form/<int:pk>/convert/' , Convert.as_view() , name='Convert'),
+    path('form/<int:pk>/take/',take, name='Take'),
+    
+
 ]
 

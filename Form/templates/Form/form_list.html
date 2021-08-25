@@ -70,17 +70,9 @@
                                                 <h5 class="text-truncate font-size-14"><a href="{% url 'Form:guest_form' x.id %}" class="text-dark">View</a></h5>
                                                 
                                             </td>
+                                            
                                             <td>
-                                                <div class="dropdown">
-                                                    <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
-                                                        <i class="mdi mdi-dots-horizontal font-size-18"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#">Action</a>
-                                                        <a class="dropdown-item" href="#">Another action</a>
-                                                        <a class="dropdown-item" href="#">Something else here</a>
-                                                    </div>
-                                                </div>
+                                                <h5 class="text-truncate font-size-14"></h5><a href="{% url 'Form:AnswerList' x.id %}" class="text-dark">View List</a> </h5> 
                                             </td>
                                         </tr>
                                         {% endfor %}
