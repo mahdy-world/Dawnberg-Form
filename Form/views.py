@@ -183,25 +183,30 @@ class OptionQuestionUpdate(LoginRequiredMixin, UpdateView):
 
 
 def guest_form(request, pk):
-    form = Form.objects.get(id=pk)
-    instance = Instance.objects.create(form=Form.objects.get(id=pk))
-    questions = Question.objects.filter(form=form)
-    if request.POST:
+    context = {
+
+    }
+    if request.method == 'GET':
+        form = Form.objects.get(id=pk)
+        instance = Instance.objects.create(form=Form.objects.get(id=pk))
+        questions = Question.objects.filter(form=form)
+        context.update({
+            'instance': instance,
+            'questions': questions,
+            'form': form,
+        })
+        return render(request, 'Answer/answer_page.html', context)
+    if request.method == 'POST':
         optional_dict = {}
         for question, answer in request.POST.items():
-            if question == 'csrfmiddlewaretoken':
+            if question == 'instance':
+                instance = Instance.objects.get(id=answer)
+                print('instance')
                 continue
-            if answer == 'on':
-                # Optional Question
-                question_object = QuestionOption.objects.get(id=question).question
-                if str(question_object.id) in optional_dict.keys():
-                    old_value = optional_dict[str(question_object.id)]
-                    optional_dict[str(question_object.id)].append(question)
-                    new_value = optional_dict[str(question_object.id)]
-                    optional_dict.update({str(question_object.id): new_value})
-                else:
-                    optional_dict.update({str(question_object.id): [question]})
-            else:
+            if question == 'csrfmiddlewaretoken':
+                print('csrfmiddlewaretoken')
+                continue
+            if answer != 'on':
                 # Text Question
                 question_object = Question.objects.get(id=question)
                 answer_object = Answer()
@@ -209,56 +214,66 @@ def guest_form(request, pk):
                 answer_object.question = question_object
                 answer_object.text_answer = answer
                 answer_object.save()
-                print(answer_object)
-            
+            else:
+                # Optional Question
+                q = question[:-1]
+                question_object = QuestionOption.objects.get(id=q).question
+                # check if there is old options in optional_dict for this question
+                if str(question_object.id) in optional_dict.keys():
+                    old_value = optional_dict[str(question_object.id)]
+                    new = ',' + q
+                    optional_dict[str(question_object.id)] += new
+                    new_value = optional_dict[str(question_object.id)]
+                    optional_dict.update({str(question_object.id): new_value})
+                else:
+                    optional_dict.update({str(question_object.id): q})
+
         for question, question_answer in optional_dict.items():
             answer_object = Answer()
             answer_object.instance = instance
             answer_object.question = Question.objects.get(id=question)
             answer_object.optional_answer = question_answer
             answer_object.save()
-           
-    context = {
-        'instance': instance,
-        'questions': questions,
-        'form': form,
-    }
+        instance.is_submitted = True
+        instance.save()
+        return redirect('Form:thankyou')
+
     return render(request, 'Answer/answer_page.html', context)
 
+
 def thank_you(request):
-    return render(request, 'Answer/thankyou.html' )
+    return render(request, 'Answer/thankyou.html')
 
 
-
-
-def add_call(request , pk ):
-    instance = get_object_or_404(Instance , id=pk)
-    form = CallForm(request.POST or None) 
+def add_call(request, pk):
+    instance = get_object_or_404(Instance, id=pk)
+    form = CallForm(request.POST or None)
     if form.is_valid():
         call = form.save(commit=False)
         call.employee = request.user
         call.instance = instance
         call.save()
-        return redirect('Form:AnswerList' , pk=instance.form.id)
+        return redirect('Form:AnswerList', pk=instance.form.id)
     context = {
         'form': form
     }
-    return render(request , 'Answer/add_call.html' , context)  
+    return render(request, 'Answer/add_call.html', context)
 
 
-def add_comment(request , pk ):
-    instance = get_object_or_404(Instance , id=pk)
-    form = CommentForm(request.POST or None) 
+def add_comment(request, pk):
+    instance = get_object_or_404(Instance, id=pk)
+    form = CommentForm(request.POST or None)
     if form.is_valid():
         comment = form.save(commit=False)
         comment.user = request.user
         comment.instance = instance
         comment.save()
-        return redirect('Form:AnswerList' , pk=instance.form.id)
+        return redirect('Form:AnswerList', pk=instance.form.id)
     context = {
         'form': form
     }
-    return render(request , 'Answer/add_comment.html' , context)
+    return render(request, 'Answer/add_comment.html', context)
+
 
 # def  convert(request ,pk):
 #     instance_id = get_object_or_404(Form , id=pk)
@@ -283,9 +298,10 @@ class CallUpdate(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['action_url'] = reverse_lazy('Form:CallUpdate', kwargs={'pk': self.object.id})
         return context
-    
+
     def get_success_url(self, **kwargs):
         return reverse_lazy('Form:AnswerList', kwargs={'pk': self.object.instance.form.id})
+
 
 class CommentUpdate(LoginRequiredMixin, UpdateView):
     login_url = '/auth/login/'
@@ -298,9 +314,10 @@ class CommentUpdate(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['action_url'] = reverse_lazy('Form:CommentUpdate', kwargs={'pk': self.object.id})
         return context
-    
+
     def get_success_url(self, **kwargs):
         return reverse_lazy('Form:AnswerList', kwargs={'pk': self.object.instance.form.id})
+
 
 class Convert(LoginRequiredMixin, UpdateView):
     login_url = '/auth/login/'
@@ -313,20 +330,24 @@ class Convert(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['action_url'] = reverse_lazy('Form:Convert', kwargs={'pk': self.object.id})
         return context
-    
-    def get_success_url(self, **kwargs):
-        return reverse_lazy('Form:AnswerList', kwargs={'pk': self.object.form.id})        
 
-def take(request ,pk):
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('Form:AnswerList', kwargs={'pk': self.object.form.id})
+
+
+def take(request, pk):
     if request.method == "POST":
-        instance = Instance.objects.get(id= request.POST.get("take"))
+        instance = Instance.objects.get(id=request.POST.get("take"))
         instance.assigned_employee = request.user
         instance.save()
-        return redirect('Form:AnswerList' , pk=instance.form.id)
+        return redirect('Form:AnswerList', pk=instance.form.id)
 
-       
 
 class AnswerList(DetailView):
     model = Form
     template_name = 'Answer/answer_list.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['instances'] = Instance.objects.filter(form=self.object, is_submitted=True)
+        return context

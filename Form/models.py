@@ -53,6 +53,7 @@ class Instance(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     assigned_employee = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, blank=True)
+    is_submitted = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False, verbose_name='حذف')
 
     def __str__(self):
@@ -65,8 +66,8 @@ class Instance(models.Model):
 class Answer(models.Model):
     instance = models.ForeignKey(Instance, on_delete=models.CASCADE, null=True)
     question = models.ForeignKey(Question, verbose_name='السؤال', on_delete=models.CASCADE)
-    text_answer = models.TextField(verbose_name='الإجابة', null=True , blank=True)
-    optional_answer = models.TextField(verbose_name=' (اختيار من متعدد)الإجابة', null=True , blank=True)
+    text_answer = models.TextField(verbose_name='الإجابة', null=True, blank=True)
+    optional_answer = models.TextField(verbose_name=' (اختيار من متعدد)الإجابة', null=True, blank=True)
     deleted = models.BooleanField(default=False, verbose_name='حذف')
 
     def __str__(self):
@@ -79,7 +80,7 @@ class Answer(models.Model):
 class InstanceComment(models.Model):
     instance = models.ForeignKey(Instance, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    comment = models.TextField(null=True ,blank=True)
+    comment = models.TextField(null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     deleted = models.BooleanField(default=False, verbose_name='حذف')
 

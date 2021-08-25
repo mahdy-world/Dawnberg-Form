@@ -1,47 +1,48 @@
 {% extends "base2.html" %}
 {% load bootstrap4 %}
-  <!-- Body -->
-  {% block body %}
+<!-- Body -->
+{% block body %}
 
 
-    
-        <div class="container mx-auto " style="margin-top: 20px;">
-            <!-- Heading Form -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card" style="border-top: 4px solid #556ee6;">
-                        <div class="card-body">
-                            <h1 style="font-size: x-large;" class="card-title mb-4">{{ form.title }}
+
+    <div class="container mx-auto " style="margin-top: 20px;">
+        <!-- Heading Form -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card" style="border-top: 4px solid #556ee6;">
+                    <div class="card-body">
+                        <h1 style="font-size: x-large;" class="card-title mb-4">{{ form.title }}
                             <h6 style="color: #969595;" class=" mb-4">{{ form.description }}</h6>
-                        </div>
                     </div>
                 </div>
-                <!-- End Heading Form  -->
-
             </div>
-            <!-- end row -->
+            <!-- End Heading Form  -->
+
+        </div>
+        <!-- end row -->
 
 
-            <!-- Body Form -->
-            <div class="row ">
-                <div class="col-lg-12">
-                    <div class="card">
-                        <form method="POST">
+        <!-- Body Form -->
+        <div class="row ">
+            <div class="col-lg-12">
+                <div class="card">
+                    <form method="POST">
                         {% csrf_token %}
+                        <input name="instance" value="{{ instance.id }}" type="hidden">
                         <div class="card-body">
-                            
+
                             {% for question in form.question_set.all %}
                                 <h1 style="font-size:18px;">
                                     {{ question.question_name }}
-                               
                                 </h1>
 
                                 {% if question.question_type == 1 or question.question_type == 2 %}
                                     <input type="text" class="form-control mb-4" id="formrow-firstname-input"
                                            style="border: none;
-                            border-bottom: 2px solid #556ee6;" placeholder="Put your answer here..." name="{{ question.id }}">
+                            border-bottom: 2px solid #556ee6;" placeholder="Put your answer here..."
+                                           name="{{ question.id }}">
 
-                            
+
                                 {% elif question.question_type == 3 or question.question_type == 4 %}
                                     <!-- <select class="select2" multiple>
                                         {% for option in question.questionoption_set.all %}
@@ -52,7 +53,7 @@
                                         <div class="custom-control custom-checkbox custom-checkbox-outline custom-checkbox-primary mb-3">
                                             <input type="checkbox" class="custom-control-input"
                                                    id="customCheck-outlinecolor{{ option.id }}"
-                                                   name="{{ option.id }}" >
+                                                   name="{{ option.id }}o">
                                             <label class="custom-control-label"
                                                    for="customCheck-outlinecolor{{ option.id }}">
                                                 {{ option.option }}
@@ -61,18 +62,18 @@
                                     {% endfor %}
                                 {% endif %}
                             {% endfor %}
-                            
-                            <button type="submit" class="btn btn-success " >Send</button>
+
+                            <button type="submit" class="btn btn-success ">Send</button>
                         </div>
-                       
+
                     </form>
-                    </div>
                 </div>
-                <!-- End body Form  -->
-
-
             </div>
-         </div>
-    
-  {% endblock body %}
+            <!-- End body Form  -->
+
+
+        </div>
+    </div>
+
+{% endblock body %}
   
