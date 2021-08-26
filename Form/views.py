@@ -253,11 +253,48 @@ def add_call(request, pk):
         call.employee = request.user
         call.instance = instance
         call.save()
-        return redirect('Form:AnswerList', pk=instance.form.id)
+        history = CallHistory()
+        history.instance = instance
+        history.call_by = request.user
+        history.call = call
+        history.call_type = 1
+        history.save()
+        message = "تم اضافة مكالمة بنجاح"
+        context = {
+            'message':message
+        }
+        return redirect('Form:AnswerList',   pk=instance.form.id,  )
+
+    # return history call for instance using id 
+    call_history = CallHistory.objects.filter(instance=instance)
+    
     context = {
-        'form': form
+        'form': form,
+        'call_history':call_history
     }
+
+    
+    
+
     return render(request, 'Answer/add_call.html', context)
+
+
+
+
+class CallUpdate(LoginRequiredMixin, UpdateView):
+    login_url = '/auth/login/'
+    model = InstanceCall
+    form_class = CallForm
+    template_name = 'Answer/update_call.html'
+    success_url = reverse_lazy('Form:CallUpdate')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['action_url'] = reverse_lazy('Form:CallUpdate', kwargs={'pk': self.object.id})
+        return context
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('Form:AnswerList', kwargs={'pk': self.object.instance.form.id})
 
 
 def add_comment(request, pk):
@@ -273,34 +310,6 @@ def add_comment(request, pk):
         'form': form
     }
     return render(request, 'Answer/add_comment.html', context)
-
-
-# def  convert(request ,pk):
-#     instance_id = get_object_or_404(Form , id=pk)
-#     form = ConvertForm(request.POST or None)
-#     if form.is_valid():
-#         instance = form.save(commit=False)
-#         instance.form = instance_id
-#         instance.save()
-#         return redirect('Form:AnswerList' , pk=instance.form.id)
-#     context = {
-#         'form':form
-#     }    
-#     return render(request, 'Answer/covert.html' , context)
-class CallUpdate(LoginRequiredMixin, UpdateView):
-    login_url = '/auth/login/'
-    model = InstanceCall
-    form_class = CallForm
-    template_name = 'Answer/update_call.html'
-    success_url = reverse_lazy('Form:CallUpdate')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['action_url'] = reverse_lazy('Form:CallUpdate', kwargs={'pk': self.object.id})
-        return context
-
-    def get_success_url(self, **kwargs):
-        return reverse_lazy('Form:AnswerList', kwargs={'pk': self.object.instance.form.id})
 
 
 class CommentUpdate(LoginRequiredMixin, UpdateView):

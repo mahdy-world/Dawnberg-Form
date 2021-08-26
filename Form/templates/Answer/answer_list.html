@@ -44,23 +44,11 @@
                                             </td>
                                         {% endfor %}
                                         <!-- Call  -->
-                                        <th scope="col"><h3 class=" font-size-14"><i class="fas fa-phone-volume"></i>
-                                            Call Status</h3></th>
-                                        <th scope="col"><h3 class=" font-size-14"><i class="fas fa-phone-volume"></i>
-                                            Summary</h3></th>
-                                        <th scope="col"><h3 class="  font-size-14"><i class="fas fa-phone-volume"></i>
-                                            Call Date</h3></th>
-                                        <th scope="col"><h3 class="  font-size-14"><i class="fas fa-phone-volume"></i>
-                                            Call Employee</h3></th>
-
+                                        <th scope="col"><h3 class=" font-size-14"><i class="fas fa-phone-volume"></i>Call Status</h3></th>
+                                    
                                         <!-- Comments -->
                                         <th scope="col"><h3 class=" font-size-14"><i class="fas fa-comment"></i> Comment
-                                        </h3></th>
-                                        <th scope="col"><h3 class=" font-size-14"><i class="fas fa-comment"></i> Comment
-                                            Date</h3></th>
-                                        <th scope="col"><h3 class=" font-size-14"><i class="fas fa-comment"></i>
-                                            Commented By</h3></th>
-
+             
                                         <!-- Actions -->
                                         <th scope="col"><h3 class="font-size-14"><i class="fas fa-user-cog"></i> Actions
                                         </h3></th>
@@ -94,7 +82,7 @@
                                             {% endfor %}
 
                                             <!-- Check if return with call data -->
-                                            {% if answer.instancecall_set.all %}
+                                          
 
                                                 <!-- loop in InstanceCall model  -->
                                                 {% for x in answer.instancecall_set.all %}
@@ -122,37 +110,11 @@
 
                                                     </td>
 
-                                                    <td>
+                                                    
 
-                                                        {% if x.summary %}
-                                                            {{ x.summary }}
-                                                        {% else %}
-                                                            <h5 class="text-truncate font-size-18">لا يوجد</h5>
-                                                        {% endif %}
+                                                   
 
-
-                                                    </td>
-
-                                                    <td>
-                                                        {% if x.timestamp %}
-                                                            {{ x.timestamp }}
-                                                        {% else %}
-                                                            <h5 class="text-truncate font-size-18">لا يوجد</h5>
-                                                        {% endif %}
-
-
-                                                    </td>
-
-                                                    <td>
-                                                        {% if x.employee %}
-                                                            <i class="fas fa-user" style="color: rgb(16, 63, 151);"></i>
-                                                            {{ x.employee }}
-                                                        {% else %}
-                                                            <h5 class="text-truncate font-size-18">لا يوجد</h5>
-                                                        {% endif %}
-
-                                                    </td>
-
+                                                    
 
 
 
@@ -160,90 +122,58 @@
 
                                                         <td>
                                                             {% if y.comment %}
+
                                                                 {{ y.comment }}
                                                             {% else %}
+
                                                                 <h5 class="text-truncate font-size-18">لا يوجد</h5>
 
                                                             {% endif %}
+
                                                         </td>
 
+                                                        
+
+                                                        
+
                                                         <td>
-                                                            {% if y.timestamp %}
-                                                                {{ y.timestamp }}
+                                                            <form action="{% url 'Form:Take' answer.id %}" method="POST" >
+                                                            {% csrf_token %}  
+                                                                
+                                                            
+                                                            {% if x.status %}
+                                                            <a href="{% url 'Form:AddCall' answer.id  %}" title="Call Details" class="btn btn-primary" id="sa-warning">  <i class="fas fa-phone-volume"></i> </a>
                                                             {% else %}
-                                                                <h5 class="text-truncate font-size-18">لا يوجد</h5>
-
+                                                            <a href="{% url 'Form:AddCall' answer.id %}" class="btn btn-primary" id="sa-warning">  <i class="fas fa-phone-volume"></i> </a>
                                                             {% endif %}
-                                                        </td>
 
-                                                        <td>
-                                                            {% if y.user %}
-                                                                <i class="fas fa-user"
-                                                                   style="color: rgb(16, 63, 151);"></i>{{ y.user }}
+                                                            
+                                                            {% if y.comment %}
+                                                            <a href="{% url 'Form:CommentUpdate' y.id %}" title="Comment Details" class="btn btn-info"><i class="fas fa-comment"></i></a>
                                                             {% else %}
-                                                                <h5 class="text-truncate font-size-18">لا يوجد</h5>
-
+                                                            <a href="{% url 'Form:AddComment' answer.id %}" class="btn btn-info"><i class="fas fa-comment"></i></a>
                                                             {% endif %}
-                                                        </td>
+                                                                
+                                                                
+                                                               
+                                                                
+                                                            <a href="{% url 'Form:Convert' answer.id %}" title="Convert" class="btn btn-warning"><i class="fas fa-share"></i></a>
+                                                            <button title="Take"  type="submit" name="take" value="{{answer.id}}"  class="btn btn-success"><i class="fas fa-handshake"></i></button>
+                                                            <a href="{% url 'Form:Convert' answer.id %}" title="Delete" class="btn btn-danger"><i class="fa fa-trash"></i></a>
 
-
-
-
-                                                        <td>
-                                                            <form action="{% url 'Form:Take' answer.id %}"
-                                                                  method="POST">
-                                                                {% csrf_token %}
-
-                                                                <a href="{% url 'Form:CallUpdate' x.id %}"
-                                                                   title="Call Details" class="btn btn-primary"
-                                                                   id="sa-warning"> <i class="fas fa-phone-volume"></i>
-                                                                </a>
-                                                                <a href="{% url 'Form:CommentUpdate' y.id %}"
-                                                                   title="Comment Details" class="btn btn-info"><i
-                                                                        class="fas fa-comment"></i></a>
-                                                                <a href="{% url 'Form:Convert' answer.id %}"
-                                                                   title="Convert" class="btn btn-warning"><i
-                                                                        class="fas fa-share"></i></a>
-                                                                <button title="Take" type="submit" name="take"
-                                                                        value="{{ answer.id }}" class="btn btn-success">
-                                                                    <i class="fas fa-handshake"></i></button>
-                                                                <a href="{% url 'Form:Convert' answer.id %}"
-                                                                   title="Delete" class="btn btn-danger"><i
-                                                                        class="fa fa-trash"></i></a>
-
-                                                            </form>
-                                                        </td>
-
+                                                            </form> 
+                                                            </td>
+                                                        
                                                     {% endfor %}
 
                                                 {% endfor %}
-                                            {% else %}
 
-                                                <td><h5 class="text-truncate font-size-18">لا يوجد</h5></td>
-                                                <td><h5 class="text-truncate font-size-18">لا يوجد</h5></td>
-                                                <td><h5 class="text-truncate font-size-18">لا يوجد</h5></td>
-                                                <td><h5 class="text-truncate font-size-18">لا يوجد</h5></td>
-                                                <td><h5 class="text-truncate font-size-18">لا يوجد</h5></td>
-                                                <td><h5 class="text-truncate font-size-18">لا يوجد</h5></td>
-                                                <td><h5 class="text-truncate font-size-18">لا يوجد</h5></td>
-                                                <td><h5 class="text-truncate font-size-18">لا يوجد</h5></td>
-                                                <td><h5 class="text-truncate font-size-18">لا يوجد</h5></td>
-                                                <td><h5 class="text-truncate font-size-18">لا يوجد</h5></td>
-                                                <td><h5 class="text-truncate font-size-18">لا يوجد</h5></td>
-                                                <td><h5 class="text-truncate font-size-18">لا يوجد</h5></td>
-                                                <td>
-                                                    <a href="{% url 'Form:AddCall' answer.id %}" class="btn btn-primary"
-                                                       id="sa-warning"> <i class="fas fa-phone-volume"></i> </a>
-                                                    <a href="{% url 'Form:AddComment' answer.id %}"
-                                                       class="btn btn-info"><i class="fas fa-comment"></i></a>
-                                                    <a href="{% url 'Form:Convert' answer.id %}"
-                                                       class="btn btn-warning"><i class="fas fa-share"></i></a>
+                                            
+
+                                                       
 
 
-                                                </td>
-
-
-                                            {% endif %}
+                                           
 
 
                                         </tr>

@@ -9,6 +9,10 @@
         <div class="page-content">
             <div class="container-fluid">
 
+                <div class="row">
+                  
+                </div>
+
                 <!-- start page title -->
                 <div class="row">
                     <div class="col-12">
@@ -29,7 +33,11 @@
 
                 <!-- Create Form -->
                 <div class="row">
-                    <div class="col-lg-6">
+
+                    
+                
+                   
+                    <div class="col-lg-4">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Call Details</h4>
@@ -52,9 +60,66 @@
                         </div>
                     </div>
                     <!-- End Create Form  -->
-                    
-                       <!-- Call tools -->
-                       <div class="col-lg-4">
+
+                      <!-- Timeline  -->
+                      <div class="col-lg-4">
+                        <div class="card" >
+                            <div class="card-body">
+                                <h4 class="card-title mb-5">Call History</h4>
+                                <div class="" style=" overflow-y: auto;max-height: 450px;">
+                                    <ul class="verti-timeline list-unstyled">
+
+
+                                            {% if call_history %}
+
+                                                    {% for x in call_history %}
+                                            
+                                                        <li class="event-list">
+                                                            <div class="event-timeline-dot">
+                                                                
+                                                                {% if x.call_type == 1 %}
+                                                                <i class="bx bx-phone-outgoing h2 text-primary"></i>
+                                                                {% endif %}
+                                                                    
+                                                            
+                                                            </div>
+                                                            <div class="media">
+                                                                <div class="mr-3">
+                                                                    
+                                                                </div>
+                                                                <div class="media-body">
+                                                                    <div>
+                                                                        <h3 class="badge badge-danger">{{x.add_at}}</h3>
+                                                                        <p class="text-muted">
+                                                                             <a href= "{% url 'Form:CallUpdate' x.call %}" style="color: #556ee6; font-size:large"> {{x.get_call_type_display}}</a> 
+                                                                              <span style="font-size: 18px;">By</span>
+                                                                           <a href= "" style="color: #556ee6; font-size:large"> <i class="bx bxs-user"  style="color: #519BFC"></i>  {{x.call_by.username}}</a> 
+                                                                        </p>
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+
+                                                    {% endfor %}
+
+                                            {% endif %}
+                                                
+                                    
+
+
+
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Timeline -->
+
+
+                     <!-- Call tools -->
+                     <div class="col-lg-3">
                         <div class="card">
                             <div class="card-body">
 
@@ -105,6 +170,7 @@
                         </div>
                     </div>
                     <!-- end call tools -->
+
                 </div>
                 <!-- end row -->
 
