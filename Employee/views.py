@@ -93,7 +93,7 @@ class EmployeeDelete(LoginRequiredMixin, UpdateView):
             return self.success_url
 
 
-class EmployeeProfile(LoginRequiredMixin,DeleteView):
+class EmployeeProfile(LoginRequiredMixin,DetailView):
     login_url = '/auth/login/'
     model = Employee
     template_name = 'Employee/employee_profile.html'

@@ -266,7 +266,7 @@ def add_call(request, pk):
         return redirect('Form:AnswerList',   pk=instance.form.id,  )
 
     # return history call for instance using id 
-    call_history = CallHistory.objects.filter(instance=instance)
+    call_history = CallHistory.objects.filter(instance=instance).order_by('-add_at')
     
     context = {
         'form': form,
@@ -360,3 +360,14 @@ class AnswerList(DetailView):
         context = super().get_context_data(**kwargs)
         context['instances'] = Instance.objects.filter(form=self.object, is_submitted=True)
         return context
+
+
+class CallDetail(LoginRequiredMixin,DetailView):
+    login_url = '/auth/login/'
+    model = InstanceCall
+    template_name = 'Answer/call_details.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        kwargs['call'] = InstanceCall.objects.get(id=self.kwargs['pk'])
+        return super(CallDetail, self).get_context_data(**kwargs)   
