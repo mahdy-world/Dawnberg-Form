@@ -20,6 +20,9 @@ urlpatterns = [
     path('form/<int:pk>/answer/list/', AnswerList.as_view(), name='AnswerList'),
 
     path('form/<int:pk>/add_call/' , add_call ,name='AddCall'),
+
+    path('form/<int:pk>/view_call/' , CallDetail.as_view() ,name='CallDetail'),
+
     path('form/<int:pk>/update_call/', CallUpdate.as_view() , name='CallUpdate'),
 
     path('form/<int:pk>/add_comment/' , add_comment ,name='AddComment'),

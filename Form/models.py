@@ -92,12 +92,35 @@ class InstanceCall(models.Model):
         (3, 'مشغول'),
         (4, 'مغلق أو غير متاح')
     )
+
+    call_type_choices = (
+        (1, 'مكالمة صادرة'),
+        (2, 'مكالمة واردة'),
+        (3, 'Whatsapp'),
+        (4, 'Messenger')
+    )
+
     instance = models.ForeignKey(Instance, on_delete=models.CASCADE)
     employee = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     status = models.IntegerField(choices=call_status)
+    call_type = models.IntegerField(choices=call_type_choices, verbose_name='نوع المكالمة')
     summary = models.TextField(null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     deleted = models.BooleanField(default=False, )
 
     def __str__(self):
         return str(self.id)
+
+
+class CallHistory(models.Model):
+    call_type_choices = (
+        (1,'Add Call'),
+        (2,'Edit Call'),
+        (3, 'Delete Call')
+    )
+    instance = models.ForeignKey(Instance, verbose_name="Answer", on_delete=models.CASCADE)
+    call_type = models.IntegerField(choices=call_type_choices , verbose_name = "نوع العملية")
+    call_by = models.ForeignKey(User , verbose_name = "Employee" , on_delete=models.CASCADE)
+    call = models.ForeignKey(InstanceCall, verbose_name = "Call", on_delete=models.CASCADE)
+    add_at = models.DateTimeField(auto_now_add=True)
+   

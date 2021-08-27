@@ -9,16 +9,20 @@
         <div class="page-content">
             <div class="container-fluid">
 
+                <div class="row">
+                  
+                </div>
+
                 <!-- start page title -->
                 <div class="row">
                     <div class="col-12">
                         <div class="page-title-box d-flex align-items-center justify-content-between">
-                            <h4 class="mb-0 font-size-18">Create New Call</h4>
+                            <h4 class="mb-0 font-size-18">Call</h4>
 
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
                                     <li class="breadcrumb-item"><a href="javascript: void(0);">Call</a></li>
-                                    <li class="breadcrumb-item active">Create New Call</li>
+                                    <li class="breadcrumb-item active"> Call</li>
                                 </ol>
                             </div>
 
@@ -27,20 +31,88 @@
                 </div>
                 <!-- end page title -->
 
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card mini-stats-wid">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <p class="text-muted font-weight-medium">Phone</p>
+                                        <h4 class="mb-0">254544</h4>
+                                    </div>
+
+                                    <div class="mini-stat-icon avatar-sm align-self-center rounded-circle bg-primary">
+                                        <span class="avatar-title">
+                                            <i class="bx bx-phone font-size-24"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mini-stats-wid">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <p class="text-muted font-weight-medium">E-mail</p>
+                                        <h4 class="mb-0">dawnberg@gamil.com</h4>
+                                    </div>
+
+                                    <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
+                                        <span class="avatar-title">
+                                            <i class="bx bx-mail-send font-size-24"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mini-stats-wid">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <p class="text-muted font-weight-medium">Call Options</p>
+                                        <h4 class="mb-0">
+                                            <a href="tel:0101" title="Phone Call" class="btn btn-info">
+                                            <i class="fa fa-mobile"></i>
+                                        </a>
+        
+                                        <a href="https://wa.me/20101" title="Whatsapp" class="btn btn-success" target="_blank">
+                                            <i class="fab fa-whatsapp"></i>
+                                        </a>
+        
+                                        <a href="https://m.me/None" title="Email" class="btn btn-primary" target="_blank">
+                                            <i class="fas fa-envelope"></i>
+                                        </a></h4>
+                                    </div>
+
+                                    <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
+                                        <span class="avatar-title">
+                                            <i class="bx bx-package font-size-24"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Create Form -->
                 <div class="row">
+
                     <div class="col-lg-6">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Call Details</h4>
+                                <h4 class="card-title">Add Call</h4>
                                 <form method="POST">
                                     {% csrf_token %}
                                     {% bootstrap_form form %}
 
                                     
                                         <div class="col-lg-10">
-                                            <button type="submit" class="btn btn-primary">Save Form</button>
-                                           
+                                            <button type="submit" class="btn btn-primary">Save </button>
                                         </div>
                                        
                                   
@@ -52,67 +124,83 @@
                         </div>
                     </div>
                     <!-- End Create Form  -->
-                    
-                       <!-- Call tools -->
-                       <div class="col-lg-4">
-                        <div class="card">
+
+                      <!-- Timeline  -->
+                      <div class="col-lg-6">
+                        <div class="card" >
                             <div class="card-body">
+                                <h4 class="card-title mb-5">Call History</h4>
+                                <div class="" style=" overflow-y: auto;max-height: 350px;">
+                                    <ul class="verti-timeline list-unstyled">
 
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="card-title mb-4"> <i class="fa fa-user"> </i> Call Information</h4>
-        
-                                        
-                                        <div class="table-responsive">
-                                            <table class="table table-nowrap mb-0">
-                                                <tbody>
-                                                    
-                                                    <tr>
-                                                        <td>
-                                                            <i class="fa fa-mobile"></i> 657887878
-                                                        </td>
-                                                     
-                                                    </tr>
 
-                                                    <tr>
-                                                        <td>
-                                                            <i class="fas fa-envelope"></i> mmldk@yahoo.com
-                                                        </td>
-                                                     
-                                                    </tr>
+                                            {% if call_history %}
+
+                                                    {% for x in call_history %}
+                                            
+                                                        <li class="event-list">
+                                                            <div class="event-timeline-dot">
+                                                                
+                                                                {% if x.call_type == 1 %}
+                                                                <i class="bx bx-phone-outgoing h2 text-primary"></i>
+                                                                {% endif %}
+                                                                    
+                                                            
+                                                            </div>
+                                                            <div class="media">
+                                                                <div class="mr-3">
+                                                                    
+                                                                </div>
+                                                                <div class="media-body">
+                                                                    <div>
+                                                                        <h3 class="badge badge-danger" style="font-size: 20px;">{{x.add_at}}</h3>
+                                                                        <p class="text-muted">
+                                                                             <a href= "{% url 'Form:CallDetail' x.call %}" style="color: #556ee6; font-size:large"> {{x.get_call_type_display}}</a> 
+                                                                              <span style="font-size: 18px;">By</span>
+                                                                             
+                                                                           <a href= "" style="color: #556ee6; font-size:large"> <i class="bx bxs-user"  style="color: #519BFC"></i>  {{x.call_by.username}}</a> 
+
+                                                                           
+                                                                           {% if x.call.status == 1 %}
+                                                                            <h3  class="badge badge-success" style="font-size: 20px;">Call Status {{x.call.get_status_display}}</h3>
+                                                                            {% elif x.call.status == 2 %}
+                                                                            <h3  class="badge badge-danger" style="font-size: 20px;">Call Status {{x.call.get_status_display}}</h3>
+                                                                            {% elif x.call.status == 3 %}
+                                                                            <h3  class="badge badge-info" style="font-size: 20px;">Call Status {{x.call.get_status_display}}</h3>
+                                                                            {% elif x.call.status == 4  %}
+                                                                            <h3  class="badge badge-warning" style="font-size: 20px;">Call Status {{x.call.get_status_display}}</h3>
+                                                                           {% endif %}
+                                                                               
+                                                                           
+                                                                        </p>
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+
+                                                    {% endfor %}
+
+                                            {% endif %}
                                                 
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
+                                    
+
+
+
+
+                                    </ul>
                                 </div>
-                                
-                                <a href="tel:0101" title="Phone Call" class="btn btn-info">
-                                    <i class="fa fa-mobile"></i>
-                                </a>
-
-                                <a href="https://wa.me/20101" title="Whatsapp" class="btn btn-success" target="_blank">
-                                    <i class="fab fa-whatsapp"></i>
-                                </a>
-
-                                <a href="https://m.me/None" title="Email" class="btn btn-primary" target="_blank">
-                                    <i class="fas fa-envelope"></i>
-                                </a>
-                                
-                               
-
                             </div>
                         </div>
                     </div>
-                    <!-- end call tools -->
+                    <!-- End Timeline -->
+
+
                 </div>
                 <!-- end row -->
 
                 
-               
-             
-                <!-- end row -->
-
+            
             </div> <!-- container-fluid -->
         </div>
         <!-- End Page-content -->

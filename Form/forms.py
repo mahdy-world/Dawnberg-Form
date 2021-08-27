@@ -56,7 +56,7 @@ OptionsFormSet = inlineformset_factory(Question, QuestionOption,
 class CallForm(forms.ModelForm):
     class Meta:
         model = InstanceCall
-        fields = ['status' , 'summary','employee' ,'deleted' ]
+        fields = ['status' , 'summary','deleted' ]
 
 class CommentForm(forms .ModelForm):
 
