@@ -1,0 +1,26 @@
+<div class="card">
+    <div class="card-header bg-danger">
+        تأكيد حذف
+    </div>
+    <div class="card-body">
+
+        هل تريد حذف هذا العنصر؟
+        <br>
+        {{ object }}
+    </div>
+    <div class="card-footer">
+        <form method="post" action="{{ request.path }}">
+            <div style="display: none;">
+                {% csrf_token %}
+                {{ form }}
+            </div>
+            <button class="btn btn-danger" type="submit" name="deleted" value="1">
+                <i class="fa fa-trash"></i>
+                حذف
+            </button>
+            <button class="btn btn-light" type="button" data-dismiss="modal">
+                رجوع
+            </button>
+        </form>
+    </div>
+</div>

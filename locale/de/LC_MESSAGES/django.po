@@ -1,0 +1,424 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-08-28 13:10+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\Core\templates\base.html:119
+msgid "Search ..."
+msgstr ""
+
+#: .\Core\templates\base.html:541
+msgid "Menu"
+msgstr ""
+
+#: .\Core\templates\base.html:547
+msgid "Home"
+msgstr ""
+
+#: .\Core\templates\base.html:555 .\Form\templates\Form\form_edit.html:21
+#: .\Form\templates\Form\form_list.html:20
+#: .\Form\templates\Form\form_new.html:21
+#: .\Form\templates\Form\form_view.html:21
+msgid "Forms"
+msgstr ""
+
+#: .\Core\templates\base.html:560
+msgid "List Forms"
+msgstr ""
+
+#: .\Core\templates\base.html:562
+msgid "Create Form"
+msgstr ""
+
+#: .\Core\templates\base.html:573
+msgid "Branches"
+msgstr ""
+
+#: .\Core\templates\base.html:578
+msgid "List Branches"
+msgstr ""
+
+#: .\Core\templates\base.html:580
+msgid "Create Branch"
+msgstr ""
+
+#: .\Core\templates\base.html:589 .\Form\templates\Status\form.html:5
+msgid "Form Status"
+msgstr ""
+
+#: .\Core\templates\base.html:594
+msgid "List Form Status"
+msgstr ""
+
+#: .\Core\templates\base.html:596
+msgid "Create Form Status"
+msgstr ""
+
+#: .\Core\templates\base.html:605
+msgid "Employees"
+msgstr ""
+
+#: .\Core\templates\base.html:610
+msgid "Employees List"
+msgstr ""
+
+#: .\Core\templates\base.html:612
+msgid "Create Employee"
+msgstr ""
+
+#: .\Core\templates\base.html:614
+msgid "Profiles List"
+msgstr ""
+
+#: .\DawnbergForm\settings.py:112
+msgid "Arabic"
+msgstr ""
+
+#: .\DawnbergForm\settings.py:113
+msgid "English"
+msgstr ""
+
+#: .\DawnbergForm\settings.py:114
+msgid "Dutch"
+msgstr ""
+
+#: .\Form\models.py:8
+msgid "Status Name"
+msgstr ""
+
+#: .\Form\models.py:9 .\Form\models.py:20 .\Form\models.py:45
+#: .\Form\models.py:54 .\Form\models.py:67 .\Form\models.py:80
+#: .\Form\models.py:94 .\Form\models.py:119
+#: .\Form\templates\Answer\answer_card_list.html:154
+#: .\Form\templates\Answer\answer_list.html:149
+#: .\Form\templates\Form\form_view.html:125
+#: .\Form\templates\Status\status_list.html:71
+msgid "Delete"
+msgstr ""
+
+#: .\Form\models.py:16
+msgid "Form Title"
+msgstr ""
+
+#: .\Form\models.py:17
+msgid "Form Description"
+msgstr ""
+
+#: .\Form\models.py:18 .\Form\templates\Form\form_list.html:42
+#: .\Form\templates\Form\form_new.html:65
+msgid "Created By"
+msgstr ""
+
+#: .\Form\models.py:19 .\Form\models.py:62
+#: .\Form\templates\Form\form_new.html:63
+msgid "Created At"
+msgstr ""
+
+#: .\Form\models.py:42
+msgid "Question Title"
+msgstr ""
+
+#: .\Form\models.py:43
+msgid "Question Type"
+msgstr ""
+
+#: .\Form\models.py:44
+msgid "Required"
+msgstr ""
+
+#: .\Form\models.py:52 .\Form\models.py:78
+msgid "Question"
+msgstr ""
+
+#: .\Form\models.py:53
+msgid "Option"
+msgstr ""
+
+#: .\Form\models.py:61 .\Form\templates\Form\form_list.html:38
+#: .\Form\templates\Form\form_new.html:62
+msgid "Form"
+msgstr ""
+
+#: .\Form\models.py:64
+msgid "Assigned To"
+msgstr ""
+
+#: .\Form\models.py:65 .\Form\templates\Form\form_new.html:64
+#: .\Form\templates\Status\status_list.html:27
+msgid "Status"
+msgstr ""
+
+#: .\Form\models.py:66
+msgid "Is Submitted?"
+msgstr ""
+
+#: .\Form\models.py:79
+msgid "Answer"
+msgstr ""
+
+#: .\Form\models.py:92
+msgid "Notes"
+msgstr ""
+
+#: .\Form\models.py:99
+msgid "Answered"
+msgstr ""
+
+#: .\Form\models.py:100
+msgid "Not Answered"
+msgstr ""
+
+#: .\Form\models.py:101
+msgid "Busy"
+msgstr ""
+
+#: .\Form\models.py:102
+msgid "Unreachable"
+msgstr ""
+
+#: .\Form\models.py:114 .\Form\templates\Answer\answer_list.html:68
+msgid "Employee"
+msgstr ""
+
+#: .\Form\models.py:115
+msgid "Call Status"
+msgstr ""
+
+#: .\Form\models.py:116
+msgid "Call Type"
+msgstr ""
+
+#: .\Form\models.py:117
+msgid "Call Summary"
+msgstr ""
+
+#: .\Form\models.py:118
+msgid "Timestamp"
+msgstr ""
+
+#: .\Form\templates\Answer\add_call.html:4
+msgid "Contact Customer"
+msgstr ""
+
+#: .\Form\templates\Answer\add_call.html:15
+#: .\Form\templates\Answer\add_comment.html:15
+#: .\Form\templates\Answer\convert.html:10
+#: .\Form\templates\Form\form_edit.html:43
+#: .\Form\templates\Form\form_new.html:42
+#: .\Form\templates\Question\question_new.html:32
+#: .\Form\templates\Question\question_update.html:32
+#: .\Form\templates\Status\form.html:10
+msgid "Save"
+msgstr ""
+
+#: .\Form\templates\Answer\add_call.html:20
+msgid "Call History"
+msgstr ""
+
+#: .\Form\templates\Answer\add_comment.html:4
+msgid "Add Notes"
+msgstr ""
+
+#: .\Form\templates\Answer\add_comment.html:20
+msgid "Note History"
+msgstr ""
+
+#: .\Form\templates\Answer\answer_card_list.html:18
+#: .\Form\templates\Form\form_view.html:67
+#: .\Form\templates\Form\form_view.html:110
+#: .\Form\templates\Form\form_view.html:117
+#: .\Form\templates\Status\status_list.html:65
+msgid "Edit"
+msgstr ""
+
+#: .\Form\templates\Answer\answer_card_list.html:23
+#: .\Form\templates\Form\form_list.html:82
+#: .\Form\templates\Form\form_view.html:72
+msgid "Preview"
+msgstr ""
+
+#: .\Form\templates\Answer\answer_card_list.html:28
+#: .\Form\templates\Answer\answer_list.html:20
+msgid "Back"
+msgstr ""
+
+#: .\Form\templates\Answer\answer_card_list.html:33
+#: .\Form\templates\Answer\answer_list.html:25
+msgid "Recycle Bin"
+msgstr ""
+
+#: .\Form\templates\Answer\answer_card_list.html:40
+#: .\Form\templates\Answer\answer_list.html:32
+msgid "Answers"
+msgstr ""
+
+#: .\Form\templates\Answer\answer_card_list.html:41
+#: .\Form\templates\Answer\answer_list.html:16
+#: .\Form\templates\Answer\answer_list.html:33
+#: .\Form\templates\Form\form_list.html:44
+#: .\Form\templates\Form\form_view.html:77
+msgid "Answers List"
+msgstr ""
+
+#: .\Form\templates\Answer\answer_card_list.html:54
+msgid "Select All"
+msgstr ""
+
+#: .\Form\templates\Answer\answer_card_list.html:59
+#: .\Form\templates\Answer\answer_list.html:46
+msgid "Delete Selected"
+msgstr ""
+
+#: .\Form\templates\Answer\answer_card_list.html:64
+#: .\Form\templates\Answer\answer_list.html:51
+msgid "Restore Selected"
+msgstr ""
+
+#: .\Form\templates\Answer\answer_card_list.html:133
+#: .\Form\templates\Answer\answer_list.html:137
+msgid "Call"
+msgstr ""
+
+#: .\Form\templates\Answer\answer_card_list.html:136
+#: .\Form\templates\Answer\answer_list.html:140
+msgid "Add Comment"
+msgstr ""
+
+#: .\Form\templates\Answer\answer_card_list.html:140
+#: .\Form\templates\Answer\answer_list.html:143
+msgid "Employee Transfer"
+msgstr ""
+
+#: .\Form\templates\Answer\answer_card_list.html:144
+msgid "Assign To Me"
+msgstr ""
+
+#: .\Form\templates\Answer\answer_card_list.html:149
+#: .\Form\templates\Form\form_view.html:132
+msgid "Restore"
+msgstr ""
+
+#: .\Form\templates\Answer\answer_list.html:77
+msgid "Calls Count"
+msgstr ""
+
+#: .\Form\templates\Answer\answer_list.html:82
+msgid "Comment"
+msgstr ""
+
+#: .\Form\templates\Answer\answer_list.html:86
+#: .\Form\templates\Form\form_new.html:66
+#: .\Form\templates\Status\status_list.html:48
+msgid "Actions"
+msgstr ""
+
+#: .\Form\templates\Answer\answer_list.html:122
+msgid "No Data"
+msgstr ""
+
+#: .\Form\templates\Answer\convert.html:5
+msgid "Assign Customer To Employee"
+msgstr ""
+
+#: .\Form\templates\Form\form_edit.html:16
+#: .\Form\templates\Form\form_edit.html:22
+msgid "Edit Form"
+msgstr ""
+
+#: .\Form\templates\Form\form_list.html:15
+#: .\Form\templates\Form\form_list.html:21
+msgid "Forms List"
+msgstr ""
+
+#: .\Form\templates\Form\form_list.html:39
+msgid "Created Date"
+msgstr ""
+
+#: .\Form\templates\Form\form_list.html:40
+msgid "URL Visits"
+msgstr ""
+
+#: .\Form\templates\Form\form_list.html:41
+msgid "Answers Submitted"
+msgstr ""
+
+#: .\Form\templates\Form\form_list.html:43
+msgid "Form Preview"
+msgstr ""
+
+#: .\Form\templates\Form\form_list.html:90
+msgid "List Answers"
+msgstr ""
+
+#: .\Form\templates\Form\form_new.html:16
+#: .\Form\templates\Form\form_new.html:22
+#: .\Form\templates\Form\form_view.html:22
+msgid "Create New Form"
+msgstr ""
+
+#: .\Form\templates\Form\form_view.html:16
+msgid "Form Design"
+msgstr ""
+
+#: .\Form\templates\Form\form_view.html:38
+msgid "Add Text Question"
+msgstr ""
+
+#: .\Form\templates\Form\form_view.html:42
+msgid "Add Phone Number Field"
+msgstr ""
+
+#: .\Form\templates\Form\form_view.html:46
+msgid "Add E-Mail Field"
+msgstr ""
+
+#: .\Form\templates\Form\form_view.html:50
+msgid "Add Multi-Choice Question"
+msgstr ""
+
+#: .\Form\templates\Form\form_view.html:54
+msgid "Add Single-Choice From Multiple-Choices Question"
+msgstr ""
+
+#: .\Form\templates\Form\form_view.html:142
+msgid "Put your answer here..."
+msgstr ""
+
+#: .\Form\templates\Question\question_new.html:6
+msgid "Add Question"
+msgstr ""
+
+#: .\Form\templates\Question\question_update.html:6
+msgid "Edit Question"
+msgstr ""
+
+#: .\Form\templates\Status\status_list.html:16
+msgid "Form Status List"
+msgstr ""
+
+#: .\Form\templates\Status\status_list.html:20
+msgid "Add"
+msgstr ""
+
+#: .\Form\templates\Status\status_list.html:28
+msgid "Create New Status"
+msgstr ""
+
+#: .\Form\templates\Status\status_list.html:47
+msgid "Name"
+msgstr ""

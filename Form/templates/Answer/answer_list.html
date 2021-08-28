@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 
 <!-- Body -->
 {% block body %}
@@ -13,12 +13,24 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="page-title-box d-flex align-items-center justify-content-between">
-                            <h4 class="mb-0 font-size-18">Answer List</h4>
+                            <h4 class="mb-0 font-size-18">{% translate 'Answers List' %}</h4>
+                            {% if request.GET.is_trash == '1' %}
+                                <a href="?is_trash=0" class="btn btn-sm btn-primary">
+                                    <i class="fa fa-backward"></i>
+                                    {% translate 'Back' %}
+                                </a>
+                            {% else %}
+                                <a href="?is_trash=1" class="btn btn-sm btn-danger">
+                                    <i class="fa fa-trash"></i>
+                                    {% translate 'Recycle Bin' %}
+                                </a>
 
+                            {% endif %}
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Answeres</a></li>
-                                    <li class="breadcrumb-item active">Answeres List</li>
+                                    <li class="breadcrumb-item"><a
+                                            href="javascript: void(0);">{% translate 'Answers' %}</a></li>
+                                    <li class="breadcrumb-item active">{% translate 'Answers List' %}</li>
                                 </ol>
                             </div>
 
@@ -26,130 +38,130 @@
                     </div>
                 </div>
                 <!-- end page title -->
+                <form method="post" action="">
+                    {% csrf_token %}
+                    {% if not request.GET.is_trash %}
+                        <button type="submit" class="btn btn-danger" name="action" value="delete">
+                            <i class="fa fa-trash"></i>
+                            {% translate 'Delete Selected' %}
+                        </button>
+                    {% else %}
+                        <button type="submit" class="btn btn-success" name="action" value="restore">
+                            <i class="fa fa-undo"></i>
+                            {% translate 'Restore Selected' %}
+                        </button>
 
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="">
-                            <div class="table-responsive">
-                                <table class="table project-list-table table-nowrap table-centered table-borderless">
-                                    <thead align="center">
-                                    <tr>
-                                        <th scope="col" style="width: 100px">#</th>
-                                        <th scope="col">Time</th>
-                                        <th scope="col"><h3 class="font-size-14"><i class="fas fa-user"></i> Employee
-                                        </h3></th>
-                                        {% for x in object.question_set.all %}
-                                            <td>
-                                                {{ x }}
-                                            </td>
-                                        {% endfor %}
-                                        <!-- Call  -->
-                                        <th scope="col"><h3 class=" font-size-14"><i class="fas fa-phone-volume"></i>Call Status</h3></th>
-                                    
-                                        <!-- Comments -->
-                                        <th scope="col"><h3 class=" font-size-14"><i class="fas fa-comment"></i> Comment
-             
-                                        <!-- Actions -->
-                                        <th scope="col"><h3 class="font-size-14"><i class="fas fa-user-cog"></i> Actions
-                                        </h3></th>
-                                    </tr>
-
-
-                                    </thead>
-                                    <tbody align="center">
-                                    {% for answer in instances %}
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="">
+                                <div class="table-responsive">
+                                    <table class="table project-list-table table-nowrap table-centered table-borderless"
+                                           id="answerListDataTable">
+                                        <thead align="center">
                                         <tr>
-                                            <td>{{ answer.id }}</td>
-                                            <td>{{ answer.created_at.astimezone.date.isoformat }}</td>
-                                            <td><i class="fas fa-user"
-                                                   style="color: rgb(16, 63, 151);"></i> {{ answer.assigned_employee }}
-                                            </td>
-                                            {% for x in answer.answer_set.all %}
+                                            <th scope="col" style="width: 100px">
+                                                <input type="checkbox" id="select-all">
+                                            </th>
+                                            <th scope="col">Time</th>
+                                            <th scope="col"><h3 class="font-size-14"><i class="fas fa-user"></i>
+                                                {% translate 'Employee' %}
+                                            </h3></th>
+                                            {% for x in object.question_set.all %}
                                                 <td>
-                                                    {% if x.text_answer %}
-                                                        {{ x.text_answer }}
-
-
-
-                                                    {% endif %}
-
-                                                    {% if x.optional_answer %}
-                                                        {{ x.optional_answer|get_option }}
-                                                    {% endif %}
-
+                                                    {{ x }}
                                                 </td>
-
                                             {% endfor %}
+                                            <!-- Call  -->
+                                            <th scope="col"><h3 class=" font-size-14"><i
+                                                    class="fas fa-phone-volume"></i>{% translate 'Calls Count' %}</h3>
+                                            </th>
 
-                                            <!-- Check if return with call data -->
-                                          
+                                            <!-- Comments -->
+                                            <th scope="col"><h3 class=" font-size-14"><i class="fas fa-comment"></i>
+                                                {% translate 'Comment' %}
 
-                                                <!-- loop in InstanceCall model  -->
-                                                
-
-
-                                                    
-                                                    
-
-                                                   <td>No data</td>
-                                                   <td>no data</td>
-
-                                                        <td>
-                                                            <form action="{% url 'Form:Take' answer.id %}" method="POST" >
-                                                            {% csrf_token %}  
-                                                                
-                                                            
-                                                            {% if x.status %}
-                                                            <a href="{% url 'Form:AddCall' answer.id  %}" title="Call Details" class="btn btn-primary" id="sa-warning">  <i class="fas fa-phone-volume"></i> </a>
-                                                            {% else %}
-                                                            <a href="{% url 'Form:AddCall' answer.id %}" class="btn btn-primary" id="sa-warning">  <i class="fas fa-phone-volume"></i> </a>
-                                                            {% endif %}
-
-                                                            
-                                                            {% if y.comment %}
-                                                            <a href="{% url 'Form:CommentUpdate' answer.id %}" title="Comment Details" class="btn btn-info"><i class="fas fa-comment"></i></a>
-                                                            {% else %}
-                                                            <a href="{% url 'Form:AddComment' answer.id %}" class="btn btn-info"><i class="fas fa-comment"></i></a>
-                                                            {% endif %}
-                                                                
-                                                                
-                                                               
-                                                                
-                                                            <a href="{% url 'Form:Convert' answer.id %}" title="Convert" class="btn btn-warning"><i class="fas fa-share"></i></a>
-                                                            <button title="Take"  type="submit" name="take" value="{{answer.id}}"  class="btn btn-success"><i class="fas fa-handshake"></i></button>
-                                                            <a href="{% url 'Form:Convert' answer.id %}" title="Delete" class="btn btn-danger"><i class="fa fa-trash"></i></a>
-
-                                                            </form> 
-                                                            </td>
-                                                        
-                                                 
-                                            
-
-                                                       
-
-
-                                           
-
-
+                                                <!-- Actions -->
+                                            <th scope="col"><h3 class="font-size-14"><i class="fas fa-user-cog"></i>
+                                                {% translate 'Actions' %}
+                                            </h3></th>
                                         </tr>
 
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
+
+                                        </thead>
+                                        <tbody align="center">
+                                        {% for instance in instances %}
+                                            <tr>
+
+                                                <td>
+                                                    <input type="checkbox" name='{{ instance.id }}'
+                                                           class="id_checkbox">
+                                                </td>
+                                                <td>{{ instance.created_at.astimezone.date.isoformat }}</td>
+                                                <td>
+
+                                                    <div class="badge {% if instance.assigned_employee == request.user %}badge-primary{% elif instance.assigned_employee == None %}badge-success{% else %}badge-danger{% endif %}">
+                                                        <i class="fas fa-user"></i> {{ instance.assigned_employee }}
+                                                    </div>
+                                                </td>
+                                                {% for x in instance.answer_set.all %}
+                                                    <td>
+                                                        {% if x.text_answer %}
+                                                            {{ x.text_answer }}
+                                                        {% endif %}
+
+                                                        {% if x.optional_answer %}
+                                                            {{ x.optional_answer|get_option }}
+                                                        {% endif %}
+
+                                                    </td>
+
+                                                {% endfor %}
+
+                                                <td>{{ instance.calls_count }}</td>
+                                                <td>{% translate 'No Data' %}</td>
+
+                                                <td>
+                                                    <form action="{% url 'Form:Take' instance.id %}" method="POST">
+                                                        {% csrf_token %}
+                                                        {% if x.status %}
+                                                            <a href="{% url 'Form:AddCall' instance.id %}"
+                                                               title="Call Details" class="btn btn-primary"
+                                                               id="sa-warning">
+                                                                <i class="fas fa-phone-volume"></i> </a>
+                                                        {% else %}
+                                                            <a href="{% url 'Form:AddCall' instance.id %}"
+                                                               class="btn btn-primary" id="sa-warning"
+                                                               data-target="#action_modal" data-toggle="modal"> <i
+                                                                    class="fas fa-phone-volume"
+                                                                    title="{% translate 'Call' %}"></i> </a>
+                                                        {% endif %}
+                                                        <a href="{% url 'Form:AddComment' instance.id %}"
+                                                           title="{% translate 'Add Comment' %}"
+                                                           class="btn btn-info"><i class="fas fa-comment"></i></a>
+                                                        <a href="{% url 'Form:Convert' instance.id %}"
+                                                           title="{% translate 'Employee Transfer' %}"
+                                                           class="btn btn-warning"><i class="fas fa-share"></i></a>
+                                                        <button title="Take" type="submit" name="take"
+                                                                value="{{ instance.id }}" class="btn btn-success"><i
+                                                                class="fas fa-handshake"></i></button>
+                                                        <a href="{% url 'Form:Convert' instance.id %}"
+                                                           title="{% translate 'Delete' %}"
+                                                           class="btn btn-danger"><i class="fa fa-trash"></i></a>
+
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- end row -->
+                    <!-- end row -->
 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="text-center my-3">
-                            <a href="javascript:void(0);" class="text-success"><i
-                                    class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more </a>
-                        </div>
-                    </div> <!-- end col-->
-                </div>
+                </form>
                 <!-- end row -->
 
             </div> <!-- container-fluid -->
@@ -157,22 +169,19 @@
         <!-- End Page-content -->
 
 
-        <footer class="footer">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <script>document.write(new Date().getFullYear())</script>
-                        2021 © Skote.
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="text-sm-right d-none d-sm-block">
-                            Design &amp; Develop by Themesbrand
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
     </div>
 {% endblock body %}
-       
-       
+
+
+{% block js %}
+
+    <script>
+        document.getElementById('select-all').onclick = function () {
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            for (var checkbox of checkboxes) {
+                checkbox.checked = this.checked;
+            }
+        }
+
+    </script>
+{% endblock %}

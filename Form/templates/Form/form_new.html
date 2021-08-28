@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% load bootstrap4 %}
+{% load i18n %}
 
- 
-    <!-- Body -->
-    {% block body %}
+<!-- Body -->
+{% block body %}
     <div class="main-content">
 
         <div class="page-content">
@@ -13,12 +13,13 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="page-title-box d-flex align-items-center justify-content-between">
-                            <h4 class="mb-0 font-size-18">Create New Form</h4>
+                            <h4 class="mb-0 font-size-18">{% translate 'Create New Form' %}</h4>
 
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Projects</a></li>
-                                    <li class="breadcrumb-item active">Create New Form</li>
+                                    <li class="breadcrumb-item"><a
+                                            href="javascript: void(0);">{% translate 'Forms' %}</a></li>
+                                    <li class="breadcrumb-item active">{% translate 'Create New Form' %}</li>
                                 </ol>
                             </div>
 
@@ -32,106 +33,114 @@
                     <div class="col-lg-6">
                         <div class="card">
                             <div class="card-body">
-                                
+
                                 <form method="POST">
                                     {% csrf_token %}
                                     {% bootstrap_form form %}
 
-                                    
-                                        <div class="col-lg-10">
-                                            <button type="submit" class="btn btn-primary">Save Form</button>
-                                           
-                                        </div>
-                                       
-                                  
+                                    <div class="col-lg-10">
+                                        <button type="submit" class="btn btn-primary">{% translate 'Save' %}</button>
+                                    </div>
+
                                 </form>
-                                
-                               
+
 
                             </div>
                         </div>
                     </div>
                     <!-- End Create Form  -->
                     {% if all %}
-               
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-body">
-                               
-                                <table class="table project-list-table table-nowrap table-centered table-borderless">
-                                    <thead>
+
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <table class="table project-list-table table-nowrap table-centered table-borderless">
+                                        <thead>
                                         <tr>
                                             <th scope="col" style="width: 100px">#</th>
-                                            <th scope="col">Forms</th>
-                                            <th scope="col">Created Date</th>
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Created By</th>
-                                            <th scope="col">Action</th>
+                                            <th scope="col">{% translate 'Form' %}</th>
+                                            <th scope="col">{% translate 'Created At' %}</th>
+                                            <th scope="col">{% translate 'Status' %}</th>
+                                            <th scope="col">{% translate 'Created By' %}</th>
+                                            <th scope="col">{% translate 'Actions' %}</th>
                                         </tr>
-                                    </thead>
-                                    <tbody>
+                                        </thead>
+                                        <tbody>
                                         {% for x in  all %}
-                                        <tr>
-                                            
-                                              
-                                            
-                                            <td>{{x.id}}</td>
-                                            <td>
-                                                <h5 class="text-truncate font-size-14"><a href="{% url 'Form:FormView' x.id %}" class="text-dark">{{x.title}}</a></h5>
-                                                
-                                            </td>
-                                            <td>{{x.created_at}}</td>
-                                            <td><span class="badge badge-primary">Completed</span></td>
-                                            <td>
-                                                <div class="team">
-                                                    <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="" data-original-title="Daniel Canales">
-                                                       {{x.created_by}}
-                                                    </a>
+                                            <tr>
 
-                                                   
 
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
-                                                        <i class="mdi mdi-dots-horizontal font-size-18"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#">Action</a>
-                                                        <a class="dropdown-item" href="#">Another action</a>
-                                                        <a class="dropdown-item" href="#">Something else here</a>
+                                                <td>{{ x.id }}</td>
+                                                <td>
+                                                    <h5 class="text-truncate font-size-14">
+                                                        <a href="{% url 'Form:FormView' x.id %}"
+                                                            class="text-dark">
+                                                            {{ x.title }}
+                                                            <i class="text-warning fa fa-edit"></i>
+                                                        </a>
+                                                    </h5>
+
+                                                </td>
+                                                <td>
+                                                    <i class="fa fa-calendar"></i>
+                                                    {{ x.created_at.astimezone.date.isoformat }}
+                                                    <i class="fa fa-clock"></i>
+                                                    {{ x.created_at.astimezone.time }}
+                                                </td>
+                                                <td>{{ x.status }}</td>
+                                                <td>
+                                                    <div class="team">
+                                                        <a href="#"
+                                                           class="team-member d-inline-block" data-toggle="tooltip"
+                                                           data-placement="top" title=""
+                                                           data-original-title="">
+                                                            {{ x.created_by }}
+                                                        </a>
+
+
                                                     </div>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <a href="#" class="dropdown-toggle card-drop"
+                                                           data-toggle="dropdown" aria-expanded="false">
+                                                            <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                                                        </a>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <a class="dropdown-item" href="#">Action</a>
+                                                            <a class="dropdown-item" href="#">Another action</a>
+                                                            <a class="dropdown-item" href="#">Something else here</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
                                         {% endfor %}
-                                    </tbody>
-                                </table>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    </div>
-               
-                {% endif %}
-                    
+
+                    {% endif %}
+
                 </div>
                 <!-- end row -->
 
-                
-               
-             
+
                 <!-- end row -->
 
             </div> <!-- container-fluid -->
         </div>
         <!-- End Page-content -->
 
-        
+
         <footer class="footer">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-6">
-                        <script>document.write(new Date().getFullYear())</script>2021 © Skote.
+                        <script>document.write(new Date().getFullYear())</script>
+                        2021 © Skote.
                     </div>
                     <div class="col-sm-6">
                         <div class="text-sm-right d-none d-sm-block">
@@ -142,6 +151,6 @@
             </div>
         </footer>
     </div>
-    {% endblock body %}
+{% endblock body %}
        
        

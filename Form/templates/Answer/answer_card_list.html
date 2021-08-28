@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+{% block body %}
+
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0 font-size-18">
+                                {{ form.title }}
+                                <a href="{% url 'Form:FormView' form.id %}" class="btn btn-sm btn-warning"
+                                   target="_blank">
+                                    <i class="fa fa-edit"></i>
+                                    {% translate 'Edit' %}
+                                </a>
+                                <a href="{% url 'Form:guest_form' form.id %}" class="btn btn-sm btn-primary"
+                                   target="_blank">
+                                    <i class="fa fa-eye"></i>
+                                    {% translate 'Preview' %}
+                                </a>
+                                {% if request.GET.is_trash == '1' %}
+                                    <a href="?is_trash=0" class="btn btn-sm btn-primary">
+                                        <i class="fa fa-backward"></i>
+                                        {% translate 'Back' %}
+                                    </a>
+                                {% else %}
+                                    <a href="?is_trash=1" class="btn btn-sm btn-danger">
+                                        <i class="fa fa-trash"></i>
+                                        {% translate 'Recycle Bin' %}
+                                    </a>
+                                {% endif %}
+                            </h4>
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a
+                                            href="javascript: void(0);">{% translate 'Answers' %}</a></li>
+                                    <li class="breadcrumb-item active">{% translate 'Answers List' %}</li>
+                                </ol>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <button class="btn btn-sm btn-light"
+                                onclick="check_all();">
+                            <input type="checkbox" id="select-all">
+                            {% translate 'Select All' %}
+                        </button>
+                        {% if request.GET.is_trash != '1' %}
+                            <button type="submit" class="btn btn-sm btn-danger" name="action" value="delete">
+                                <i class="fa fa-trash"></i>
+                                {% translate 'Delete Selected' %}
+                            </button>
+                        {% else %}
+                            <button type="submit" class="btn btn-sm btn-success" name="action" value="restore">
+                                <i class="fa fa-undo"></i>
+                                {% translate 'Restore Selected' %}
+                            </button>
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                        {% for instance in instances %}
+                            <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <input type="checkbox" name='{{ instance.id }}'
+                                               class="id_checkbox">
+                                        <div>
+                                            {{ instance.id }}
+                                            <div class="badge {% if instance.assigned_employee == request.user %}badge-primary{% elif instance.assigned_employee == None %}badge-success{% else %}badge-danger{% endif %}">
+                                                <i class="fas fa-user"></i> {{ instance.assigned_employee }}
+                                            </div>
+                                            <div class="badge {% if instance.calls_count != 0 %}badge-primary{% else %}badge-danger{% endif %}">
+                                                <i class="fa fa-phone"></i> {{ instance.calls_count }}</div>
+                                            <a href="{% url 'Form:InstanceStatusUpdate' instance.id %}"
+                                               data-target="#sub_modal" data-toggle="modal">
+                                                <div class="badge badge-info">
+                                                    {{ instance.status }}
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <small>
+                                            <i class="fa fa-calendar"></i> {{ instance.created_at.astimezone.date.isoformat }}
+                                            <i class="fa fa-clock"></i> {{ instance.created_at.astimezone.time }}
+                                        </small>
+
+                                    </div>
+
+                                    <div class="card-body">
+                                        {% for answer in instance.answer_set.all %}
+                                            <div>
+                                                {% if answer.question.question_type == 5 %}
+                                                    <label>{{ answer.question }}:</label>
+                                                    {% if answer.text_answer %}
+                                                        {{ answer.text_answer }}
+                                                        <a href="tel:{{ answer.text_answer }}">
+                                                            <i class="fa fa-phone"></i>
+                                                        </a>
+                                                        <a href="https://wa.me/2{{ answer.text_answer }}">
+                                                            <i class="fab fa-whatsapp"></i>
+                                                        </a>
+                                                    {% endif %}
+                                                {% elif answer.question.question_type == 6 %}
+                                                    <label>{{ answer.question }}:</label>
+                                                    {% if answer.text_answer %}
+                                                        <a href="mailto:{{ answer.text_answer }}"> {{ answer.text_answer }}</a>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <label>{{ answer.question }}:</label>
+                                                    {% if answer.text_answer %}
+                                                        {{ answer.text_answer }}
+                                                    {% endif %}
+                                                {% endif %}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="card-footer">
+                                        {% csrf_token %}
+                                        {% if x.status %}
+                                            <a href="{% url 'Form:AddCall' instance.id %}"
+                                               title="Call Details" class="btn btn-primary"
+                                               id="sa-warning">
+                                                <i class="fas fa-phone-volume"></i> </a>
+                                        {% else %}
+                                            <a href="{% url 'Form:AddCall' instance.id %}"
+                                               class="btn btn-primary" id="sa-warning"
+                                               data-target="#action_modal" data-toggle="modal"> <i
+                                                    class="fas fa-phone-volume"
+                                                    title="{% translate 'Call' %}"></i> </a>
+                                        {% endif %}
+                                        <a href="{% url 'Form:AddComment' instance.id %}"
+                                           title="{% translate 'Add Comment' %}" data-toggle="modal"
+                                           data-target="#action_modal"
+                                           class="btn btn-info"><i class="fas fa-comment"></i></a>
+                                        <a href="{% url 'Form:Convert' instance.id %}"
+                                           title="{% translate 'Employee Transfer' %}" data-toggle="modal"
+                                           data-target="#sub_modal"
+                                           class="btn btn-warning"><i class="fas fa-share"></i></a>
+                                        <a href="{% url 'Form:assign_to_self' instance.id %}"
+                                           title="{% translate 'Assign To Me' %}" type="submit" name="take"
+                                           class="btn btn-success"><i
+                                                class="fas fa-handshake"></i></a>
+                                        {% if instance.deleted %}
+                                            <a href="{% url 'Form:delete_instance' instance.id %}"
+                                               title="{% translate 'Restore' %}" data-target="#sub_modal"
+                                               data-toggle="modal"
+                                               class="btn btn-success"><i class="fa fa-undo"></i></a>
+                                        {% else %}
+                                            <a href="{% url 'Form:delete_instance' instance.id %}"
+                                               title="{% translate 'Delete' %}" data-target="#sub_modal"
+                                               data-toggle="modal"
+                                               class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block js %}
+
+    <script>
+
+        document.getElementById('select-all').onclick = function () {
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            for (var checkbox of checkboxes) {
+                checkbox.checked = this.checked;
+            }
+        }
+
+        function check_all() {
+            var all_status = document.getElementById('select-all');
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            for (var checkbox of checkboxes) {
+                checkbox.checked = all_status.checked;
+            }
+        }
+
+
+    </script>
+{% endblock %}

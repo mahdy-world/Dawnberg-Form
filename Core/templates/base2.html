@@ -1,57 +1,75 @@
-{% load static %}
 <!DOCTYPE html>
-<html >
+{% load i18n %}
+{% load static %}
+{% get_current_language as CURRENT_LANGUAGE %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html lang="{{ CURRENT_LANGUAGE }}"
+      dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
 
-    
+
 <!-- Mirrored from themesbrand.com/skote-mvc/layouts/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 13 Feb 2021 14:04:49 GMT -->
 <head>
-        
-    
-    <title>Dashboard | Skote - Responsive Bootstrap 4 Admin Dashboard</title>
+
+
+    <title>Dawnberg Lead Generator | برنامج دون بيرج للحصول علي العملاء</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <!-- App favicon -->
     <link rel="shortcut icon" href="/static/assets/images/favicon.ico">
 
     <!-- Bootstrap Css -->
-    <link href="/static/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" >
+    <link href="/static/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet">
     <!-- Icons Css -->
-    <link href="/static/assets/css/icons.min.css" rel="stylesheet"  >
+    <link href="/static/assets/css/icons.min.css" rel="stylesheet">
     <!-- App Css-->
-    <link href="/static/assets/css/app.min.css" id="app-style" rel="stylesheet" >
+    <link href="/static/assets/css/app.min.css" id="app-style" rel="stylesheet">
+
+    {% if LANGUAGE_BIDI %}
+        <!-- RTL -->
+        <!-- Bootstrap CSS -->
+        <link href="/static/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet">
+        <!-- App Css-->
+        <link href="/static/assets/css/app-rtl.min.css" id="app-style" rel="stylesheet">
+    {% else %}
+        <!-- LTR -->
+        <!-- Bootstrap CSS -->
+        <link href="/static/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet">
+        <!-- App Css-->
+        <link href="/static/assets/css/app.min.css" id="app-style" rel="stylesheet">
+    {% endif %}
 
 </head>
 
-<body >
+<body>
 
-      <!-- Body -->
-      {% block body %}
-          
-      {% endblock body %}
-      
+<!-- Body -->
+{% block body %}
 
-    <!-- JAVASCRIPT -->
-    <script src="/static/assets/libs/jquery/jquery.min.js"></script>
-    <script src="/static/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/static/assets/libs/metismenu/metisMenu.min.js"></script>
-    <script src="/static/assets/libs/simplebar/simplebar.min.js"></script>
-    <script src="/static/assets/libs/node-waves/waves.min.js"></script>
+{% endblock body %}
 
-    <!-- apexcharts -->
-    <script src="/static/assets/libs/apexcharts/apexcharts.min.js"></script>
 
-    <script src="/static/assets/js/pages/dashboard.init.js"></script>
+<!-- JAVASCRIPT -->
+<script src="/static/assets/libs/jquery/jquery.min.js"></script>
+<script src="/static/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/static/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="/static/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="/static/assets/libs/node-waves/waves.min.js"></script>
 
-    <!-- App js -->
-    <script src="/static/assets/js/app.js"></script>
-    <script src="{% static 'js/main.js'%}"></script>
-    <script src="{% static 'js/bootstrap.min.js'%}"></script>
-    <script src="{% static 'js/all.js'%}"></script>
+<!-- apexcharts -->
+<script src="/static/assets/libs/apexcharts/apexcharts.min.js"></script>
 
- {% block js %}
+<script src="/static/assets/js/pages/dashboard.init.js"></script>
 
- {% endblock %}
+<!-- App js -->
+<script src="/static/assets/js/app.js"></script>
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/all.js' %}"></script>
+
+{% block js %}
+
+{% endblock %}
 
 
 </body>

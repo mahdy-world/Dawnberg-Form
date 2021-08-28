@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block body %}
+
+
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0">
+                                {% translate 'Form Status List' %}
+                                <a href="{% url 'Form:StatusCreate' %}" class="btn btn-success" data-toggle="modal"
+                                   data-target="#sub_modal">
+                                    <i class="fa fa-plus-circle"></i>
+                                    {% translate 'Add' %}
+                                </a>
+                            </h4>
+
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a
+                                            href="{javascript: void(0);}">{% translate 'Status' %}</a></li>
+                                    <li class="breadcrumb-item active">{% translate 'Create New Status' %}</li>
+                                </ol>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" id="select-all">
+
+                                    </th>
+                                    <th>{% translate 'Name' %}</th>
+                                    <th>{% translate 'Actions' %}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for status in object_list %}
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" name="{{ status.id }}">
+                                        </td>
+                                        <td>
+                                            {{ status.name }}
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'Form:StatusUpdate' status.id %}"
+                                               class="btn btn-sm btn-warning" data-target="#sub_modal"
+                                               data-toggle="modal">
+                                                <i class="fa fa-edit"></i>
+                                                {% translate 'Edit' %}
+                                            </a>
+                                            <a href="{% url 'Form:StatusDelete' status.id %}"
+                                               class="btn btn-sm btn-danger" data-target="#sub_modal"
+                                               data-toggle="modal">
+                                                <i class="fa fa-trash"></i>
+                                                {% translate 'Delete' %}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

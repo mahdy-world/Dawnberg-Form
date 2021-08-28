@@ -25,7 +25,8 @@ urlpatterns = [
     path('auth/',include('Auth.urls')),
     path('form/',include('Form.urls')),
     path('employee/',include('Employee.urls')),
-    path('branch/', include('Branch.urls'))
+    path('branch/', include('Branch.urls')),
+    path('i18n/', include('django.conf.urls.i18n')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
