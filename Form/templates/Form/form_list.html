@@ -1,9 +1,8 @@
 {% extends "base.html" %}
+{% load i18n %}
 
- 
- 
-    <!-- Body -->
-    {% block body %}
+<!-- Body -->
+{% block body %}
     <div class="main-content">
 
         <div class="page-content">
@@ -13,18 +12,19 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="page-title-box d-flex align-items-center justify-content-between">
-                            <h4 class="mb-0 font-size-18">Forms List</h4>
+                            <h4 class="mb-0 font-size-18">{% translate 'Forms List' %}</h4>
 
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
-                                    <li class="breadcrumb-item active">Forms List</li>
+                                    <li class="breadcrumb-item"><a
+                                            href="javascript: void(0);">{% translate 'Forms' %}</a></li>
+                                    <li class="breadcrumb-item active">{% translate 'Forms List' %}</li>
                                 </ol>
                             </div>
-                            
+
                         </div>
                     </div>
-                </div>     
+                </div>
                 <!-- end page title -->
 
                 <div class="row">
@@ -33,49 +33,65 @@
                             <div class="table-responsive">
                                 <table class="table project-list-table table-nowrap table-centered table-borderless">
                                     <thead align="center">
-                                        <tr>
-                                            <th scope="col" style="width: 100px">#</th>
-                                            <th scope="col">Forms</th>
-                                            <th scope="col">Created Date</th>
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Created By</th>
-                                            <th scope="col">AnswerView</th> 
-                                            <th scope="col">Action</th>
-                                        </tr>
+                                    <tr>
+                                        <th scope="col" style="width: 100px">#</th>
+                                        <th scope="col">{% translate 'Form' %}</th>
+                                        <th scope="col">{% translate 'Created Date' %}</th>
+                                        <th scope="col">{% translate 'URL Visits' %}</th>
+                                        <th scope="col">{% translate 'Answers Submitted' %}</th>
+                                        <th scope="col">{% translate 'Created By' %}</th>
+                                        <th scope="col">{% translate 'Form Preview' %}</th>
+                                        <th scope="col">{% translate 'Answers List' %}</th>
+                                    </tr>
                                     </thead>
                                     <tbody align="center">
-                                        {% for x in  object_list %}
+                                    {% for x in object_list %}
                                         <tr>
-                                            
-                                              
-                                            
-                                            <td>{{x.id}}</td>
+                                            <td>{{ x.id }}</td>
                                             <td>
-                                                <h5 class="text-truncate font-size-14 badge badge-success"><a href="{% url 'Form:FormView' x.id %}" class="text-dark">{{x.title}}</a></h5>
-                                                
+                                                <h5 class="text-truncate font-size-14">
+                                                    {{ x.title }}
+                                                    <a href="{% url 'Form:FormView' x.id %}"
+                                                       class="text-warning">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                </h5>
+
                                             </td>
-                                            <td>{{x.created_at}}</td>
-                                            <td><span class="badge badge-primary">Completed</span></td>
+                                            <td>
+                                                <i class="fa fa-calendar"></i>
+                                                {{ x.created_at.astimezone.date.isoformat }}
+                                                <i class="fa fa-clock"></i>
+                                                {{ x.created_at.astimezone.time }}
+                                            </td>
+                                            <td><i class="fa fa-eye"></i> {{ x.visits_count }}</td>
+                                            <td><i class="fa fa-check-circle"></i> {{ x.answers_count }}</td>
                                             <td>
                                                 <div class="team">
-                                                    <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="" data-original-title="Daniel Canales">
-                                                       {{x.created_by}}
+                                                    <a href="javascript: void(0);" class="team-member d-inline-block"
+                                                       data-toggle="tooltip" data-placement="top" title=""
+                                                       data-original-title="Daniel Canales">
+                                                        {{ x.created_by }}
                                                     </a>
-
-                                                   
-
                                                 </div>
                                             </td>
                                             <td>
-                                                <h5 class="text-truncate font-size-14"><a href="{% url 'Form:guest_form' x.id %}" class="text-dark">View</a></h5>
-                                                
+                                                <a href="{% url 'Form:guest_form' x.id %}" target="_blank"
+                                                   class="btn btn-sm btn-primary">
+                                                    <i class="fa fa-eye"></i>
+                                                    {% translate 'Preview' %}
+                                                </a>
                                             </td>
-                                            
+
                                             <td>
-                                                <h5 class="text-truncate font-size-14"></h5><a href="{% url 'Form:AnswerList' x.id %}" class="text-dark">View List</a> </h5> 
+                                                <a href="{% url 'Form:AnswerList' x.id %}"
+                                                   class="btn btn-sm btn-info">
+                                                    <i class="fa fa-list"></i>
+                                                    {% translate 'List Answers' %}
+                                                </a>
                                             </td>
                                         </tr>
-                                        {% endfor %}
+                                    {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
@@ -84,35 +100,10 @@
                 </div>
                 <!-- end row -->
 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="text-center my-3">
-                            <a href="javascript:void(0);" class="text-success"><i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more </a>
-                        </div>
-                    </div> <!-- end col-->
-                </div>
-                <!-- end row -->
-                
             </div> <!-- container-fluid -->
         </div>
         <!-- End Page-content -->
-
-        
-        <footer class="footer">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <script>document.write(new Date().getFullYear())</script>2021 © Skote.
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="text-sm-right d-none d-sm-block">
-                            Design &amp; Develop by Themesbrand
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
     </div>
-    {% endblock body %}
+{% endblock body %}
        
        

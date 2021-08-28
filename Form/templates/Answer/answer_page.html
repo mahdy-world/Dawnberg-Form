@@ -1,5 +1,12 @@
 {% extends "base2.html" %}
 {% load bootstrap4 %}
+{% block css %}
+    <style>
+    body{
+        background: ;
+    }
+    </style>
+{% endblock %}
 <!-- Body -->
 {% block body %}
 
@@ -11,8 +18,8 @@
             <div class="col-lg-12">
                 <div class="card" style="border-top: 4px solid #556ee6;">
                     <div class="card-body">
-                        <h1 style="font-size: x-large;" class="card-title mb-4">{{ form.title }}
-                            <h6 style="color: #969595;" class=" mb-4">{{ form.description }}</h6>
+                        <h1 style="font-size: x-large;" class="card-title mb-4">{{ form.title }}</h1>
+                        <h6 style="color: #969595;" class=" mb-4">{{ form.description }}</h6>
                     </div>
                 </div>
             </div>
@@ -26,44 +33,62 @@
         <div class="row ">
             <div class="col-lg-12">
                 <div class="card">
-                    <form method="POST">
+                    <form method="post" id="myForm">
                         {% csrf_token %}
                         <input name="instance" value="{{ instance.id }}" type="hidden">
                         <div class="card-body">
 
                             {% for question in form.question_set.all %}
-                                <h1 style="font-size:18px;">
-                                    {{ question.question_name }}
-                                </h1>
+                                {% if not question.deleted %}
+                                    <div style="font-size:18px;">
+                                        {{ question.question_name }}
+                                        {% if question.required %}
+                                            <i class="text-danger">*</i>
+                                        {% endif %}
+                                    </div>
 
-                                {% if question.question_type == 1 or question.question_type == 2 %}
-                                    <input type="text" class="form-control mb-4" id="formrow-firstname-input"
-                                           style="border: none;
+                                    {% if question.question_type in text_fields %}
+                                        <input type="text" class="form-control mb-4" id="formrow-firstname-input"
+                                               style="border: none;
                             border-bottom: 2px solid #556ee6;" placeholder="Put your answer here..."
-                                           name="{{ question.id }}">
+                                               name="{{ question.id }}" {% if question.required %}required{% endif %}>
 
-
-                                {% elif question.question_type == 3 or question.question_type == 4 %}
-                                    <!-- <select class="select2" multiple>
+                                    {% elif question.question_type == 3 or question.question_type == 4 %}
+                                        <!-- <select class="select2" multiple>
                                         {% for option in question.questionoption_set.all %}
                                             <option value="{{ option.id }}">{{ option.option }}</option>
                                         {% endfor %}
                                     </select> -->
-                                    {% for option in question.questionoption_set.all %}
-                                        <div class="custom-control custom-checkbox custom-checkbox-outline custom-checkbox-primary mb-3">
-                                            <input type="checkbox" class="custom-control-input"
-                                                   id="customCheck-outlinecolor{{ option.id }}"
-                                                   name="{{ option.id }}o">
-                                            <label class="custom-control-label"
-                                                   for="customCheck-outlinecolor{{ option.id }}">
-                                                {{ option.option }}
-                                            </label>
-                                        </div>
-                                    {% endfor %}
+                                        {% if question.question_type == 3 %}
+                                            {% for option in question.questionoption_set.all %}
+                                                <div class="custom-control custom-checkbox custom-checkbox-outline custom-checkbox-primary mb-3">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                           id="customCheck-outlinecolor{{ option.id }}"
+                                                           name="{{ option.question.id }}" value="{{ option.id }}">
+                                                    <label class="custom-control-label"
+                                                           for="customCheck-outlinecolor{{ option.id }}">
+                                                        {{ option.option }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        {% elif question.question_type == 4 %}
+                                            {% for option in question.questionoption_set.all %}
+                                                <label>
+                                                    <input type="radio"
+                                                           value="{{ option.id }}"
+                                                           name="{{ question.id }}"
+                                                           {% if question.required %}required{% endif %}>
+                                                    {{ option.option }}
+                                                </label>
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endif %}
                                 {% endif %}
                             {% endfor %}
 
-                            <button type="submit" class="btn btn-success ">Send</button>
+                            <button type="submit" class="btn btn-success" id="id_submit">
+                                Send
+                            </button>
                         </div>
 
                     </form>
@@ -74,6 +99,4 @@
 
         </div>
     </div>
-
 {% endblock body %}
-  

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load bootstrap4 %}
-
+{% load i18n %}
 
 <!-- Body -->
 {% block body %}
@@ -13,12 +13,13 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="page-title-box d-flex align-items-center justify-content-between">
-                            <h4 class="mb-0 font-size-18">Form Design</h4>
+                            <h4 class="mb-0">{% translate 'Form Design' %}</h4>
 
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="{javascript: void(0);}">Forms</a></li>
-                                    <li class="breadcrumb-item active">Create New Form</li>
+                                    <li class="breadcrumb-item"><a
+                                            href="{javascript: void(0);}">{% translate 'Forms' %}</a></li>
+                                    <li class="breadcrumb-item active">{% translate 'Create New Form' %}</li>
                                 </ol>
                             </div>
 
@@ -29,33 +30,60 @@
 
                 <!-- Create Form -->
                 <div class="row">
+                    <div class="col-lg-12">
+
+                        <div class="card-body">
+                            <a href="{% url 'Form:TextQuestionCreate' object.id %}?form_id={{ object.id }}&type=1"
+                               class="btn btn-sm btn-success" data-toggle="modal" data-target="#sub_modal">
+                                {% translate 'Add Text Question' %}
+                            </a>
+                            <a href="{% url 'Form:TextQuestionCreate' object.id %}?form_id={{ object.id }}&type=5"
+                               class="btn btn-sm btn-success" data-toggle="modal" data-target="#sub_modal">
+                                {% translate 'Add Phone Number Field' %}
+                            </a>
+                            <a href="{% url 'Form:TextQuestionCreate' object.id %}?form_id={{ object.id }}&type=6"
+                               class="btn btn-sm btn-success" data-toggle="modal" data-target="#sub_modal">
+                                {% translate 'Add E-Mail Field' %}
+                            </a>
+                            <a href="{% url 'Form:OptionalQuestionCreate' object.id %}?form_id={{ object.id }}&type=3"
+                               class="btn btn-sm btn-success" data-toggle="modal" data-target="#sub_modal">
+                                {% translate 'Add Multi-Choice Question' %}
+                            </a>
+                            <a href="{% url 'Form:OptionalQuestionCreate' object.id %}?form_id={{ object.id }}&type=4"
+                               class="btn btn-sm btn-success" data-toggle="modal" data-target="#sub_modal">
+                                {% translate 'Add Single-Choice From Multiple-Choices Question' %}
+                            </a>
+
+                        </div>
+                    </div>
                     <div class="col-lg-8">
                         <div class="card" style="border-top: 4px solid #556ee6;">
                             <div class="card-body">
-                                <h1 style="font-size: x-large;" class="card-title mb-4">{{ forms.title }} <a href="{% url 'Form:FormUpdate' forms.id %}"
-                                                                                                             class="btn btn-primary"><i
-                                        class="mdi mdi-pencil  font-size-8"></i></a></h1>
+                                <h1 class="card-title mb-4">
+                                    {{ forms.title }}
+                                    <a href="{% url 'Form:FormUpdate' forms.id %}"
+                                       class="btn btn-sm btn-warning">
+                                        <i class="mdi mdi-pencil"></i>
+                                        {% translate 'Edit' %}
+                                    </a>
+                                    <a href="{% url 'Form:guest_form' form.id %}" class="btn btn-sm btn-primary"
+                                       target="_blank">
+                                        <i class="fa fa-eye"></i>
+                                        {% translate 'Preview' %}
+                                    </a>
+                                    <a href="{% url 'Form:AnswerList' form.id %}" class="btn btn-sm btn-success"
+                                       target="_blank">
+                                        <i class="fa fa-list-ul"></i>
+                                        {% translate 'Answers List' %}
+                                    </a>
+                                </h1>
 
-                                <h6 style="color: #969595;" class=" mb-4">{{ forms.description }}</h6>
+                                <h6 class=" mb-4">{{ forms.description }}</h6>
 
                             </div>
                         </div>
                     </div>
                     <!-- End Create Form  -->
-
-
-                    <div class="col-lg-4">
-                        <div class="card" style="border-top: 4px solid #34c38f;">
-                            <div class="card-body">
-                                <a href="{% url 'Form:TextQuestionCreate' object.id %}?form_id={{ object.id }}"
-                                   class="btn btn-success"
-                                     class="mb-4">Text Question</a>
-                                <a href="{% url 'Form:OptionalQuestionCreate' object.id %}?form_id={{ object.id }}"
-                                   class="btn btn-success"
-                                   class="mb-4">Optional Question </a>
-                            </div>
-                        </div>
-                    </div>
 
 
                 </div>
@@ -69,43 +97,79 @@
                             <div class="card-body">
 
                                 {% for question in object.question_set.all %}
-                                    <h1 style="font-size:18px;">
+                                    <div>
                                         {{ question.question_name }}
-                                        
-                                        {% if question.question_type == 1 or question.question_type == 2  %}
-                                        <a href="{% url 'Form:TextQuestionUpdate' question.id %}" class="btn btn-primary">
-                                            <i class="mdi mdi-pencil  font-size-8"></i>
-                                        </a>
-                                        {% elif question.question_type == 3 or question.question_type == 4 %}
-                                        <a href="{% url 'Form:OptionQuestionUpdate' question.id %}" class="btn btn-primary">
-                                            <i class="mdi mdi-pencil  font-size-8"></i>
-                                        </a>
+                                        {% if question.required %}
+                                            <i class="text-danger">*</i>
                                         {% endif %}
-                                            
-                                        
-                                    </h1>
+                                        {% if question.question_type in text_question_ids %}
+                                            <a href="{% url 'Form:TextQuestionUpdate' question.id %}"
+                                               class="btn btn-sm btn-warning" data-target="#sub_modal"
+                                               data-toggle="modal">
+                                                <i class="mdi mdi-pencil"></i>
+                                                {% translate 'Edit' %}
+                                            </a>
+                                        {% elif question.question_type == 3 or question.question_type == 4 %}
+                                            <a href="{% url 'Form:OptionQuestionUpdate' question.id %}"
+                                               class="btn btn-sm btn-warning" data-target="#sub_modal"
+                                               data-toggle="modal">
+                                                <i class="mdi mdi-pencil"></i>
+                                                {% translate 'Edit' %}
+                                            </a>
+                                        {% endif %}
+                                        {% if not question.deleted %}
+                                            <a href="{% url 'Form:QuestionDelete' question.id %}"
+                                               class="btn btn-sm btn-danger"
+                                               data-target="#sub_modal" data-toggle="modal">
+                                                <i class="fa fa-trash"></i>
+                                                {% translate 'Delete' %}
+                                            </a>
+                                        {% else %}
+                                            <a href="{% url 'Form:QuestionDelete' question.id %}"
+                                               class="btn btn-sm btn-success"
+                                               data-target="#sub_modal" data-toggle="modal">
+                                                <i class="fa fa-undo"></i>
+                                                {% translate 'Restore' %}
+                                            </a>
+                                        {% endif %}
+                                    </div>
 
-                                    {% if question.question_type == 1 or question.question_type == 2 %}
+                                    {% if question.question_type in text_question_ids %}
+
                                         <input type="text" class="form-control mb-4" id="formrow-firstname-input"
                                                style="border: none;
-                                border-bottom: 2px solid #556ee6;" placeholder="Put your answer here...">
+                                border-bottom: 2px solid #556ee6;"
+                                               placeholder="{% translate 'Put your answer here...' %}">
+
                                     {% elif question.question_type == 3 or question.question_type == 4 %}
                                         <!-- <select class="select2" multiple>
                                             {% for option in question.questionoption_set.all %}
                                                 <option value="{{ option.id }}">{{ option.option }}</option>
                                             {% endfor %}
+
                                         </select> -->
-                                        {% for option in question.questionoption_set.all %}
-                                            <div class="custom-control custom-checkbox custom-checkbox-outline custom-checkbox-primary mb-3">
-                                                <input type="checkbox" class="custom-control-input"
-                                                       id="customCheck-outlinecolor{{ option.id }}"
-                                                       name="{{ option.id }}">
-                                                <label class="custom-control-label"
-                                                       for="customCheck-outlinecolor{{ option.id }}">
+                                        {% if question.question_type == 3 %}
+                                            {% for option in question.questionoption_set.all %}
+                                                <div class="custom-control custom-checkbox custom-checkbox-outline custom-checkbox-primary mb-3">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                           id="customCheck-outlinecolor{{ option.id }}"
+                                                           name="{{ option.id }}">
+                                                    <label class="custom-control-label"
+                                                           for="customCheck-outlinecolor{{ option.id }}">
+                                                        {{ option.option }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        {% elif question.question_type == 4 %}
+                                            {% for option in question.questionoption_set.all %}
+                                                <label>
+                                                    <input type="radio"
+                                                           value="{{ option.id }}"
+                                                           name="{{ question.id }}">
                                                     {{ option.option }}
                                                 </label>
-                                            </div>
-                                        {% endfor %}
+                                            {% endfor %}
+                                        {% endif %}
                                     {% endif %}
                                 {% endfor %}
                             </div>
@@ -123,21 +187,6 @@
         <!-- End Page-content -->
 
 
-        <footer class="footer">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <script>document.write(new Date().getFullYear())</script>
-                        2021 © Skote.
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="text-sm-right d-none d-sm-block">
-                            Design &amp; Develop by Themesbrand
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
     </div>
 {% endblock body %}
        

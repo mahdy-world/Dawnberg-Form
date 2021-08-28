@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 # Create your models here.
 class Branch(models.Model):
     name = models.CharField(max_length=128, verbose_name='الاسم')
@@ -19,5 +20,5 @@ class Branch(models.Model):
             ('add_branch', 'إضافة فرع'),
             ('edit_branch', 'تعديل فرع'),
             ('delete_branch', 'حذف فرع'),
-            ('access_branch_menu', 'الدخول علي قائمة الفروع'),
+            ('list_branches', 'عرض الفروع'),
         )
