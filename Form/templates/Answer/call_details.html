@@ -34,6 +34,12 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title mb-4">Call Information</h4>
+                                
+                                {% if request.user.is_superuser %}
+                                <h4 class="card-title"><a class="btn btn-primary" href="{% url 'Form:CallUpdate' call.id  %}"> Update Call </a></h4>
+                                {% endif %}
+                                    
+                               
 
                                 
                                 <div class="table-responsive">

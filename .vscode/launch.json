@@ -8,12 +8,17 @@
     ],
     "django": true,
     "configurations": [
+    
         {
-            "name": "Python: Current File",
+            "name": "Python: Django",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal"
+            "program": "${workspaceFolder}/manage.py",
+            "args": [
+                "runserver",
+            ],
+            "django": true,
+            "console": "integratedTerminal",
         }
     ]
 }

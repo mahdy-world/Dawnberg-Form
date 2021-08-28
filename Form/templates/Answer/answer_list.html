@@ -81,17 +81,31 @@
 
                                             {% endfor %}
 
-                                            <!-- Check if return with call data -->
                                           
+                                                   <td>
+                                                       
+                                                    {% if answer.instancecall_set.count > 0 %}
 
-                                                <!-- loop in InstanceCall model  -->
-                                                
+                                                    <span  style="font-size: 16px;"
 
-
-                                                    
-                                                    
-
-                                                   <td>No data</td>
+                                                        {% if answer.instancecall_set.last.status == 1 %}
+                                                            class="badge badge-success" 
+                                                        {% elif answer.instancecall_set.last.status == 2  %}
+                                                            class="badge badge-danger"  
+                                                        {% elif answer.instancecall_set.last.status == 3  %}
+                                                            class="badge badge-warning"
+                                                        {% elif answer.instancecall_set.last.status == 4  %}  
+                                                            class="badge badge-primary"
+                                                        {% endif %}
+                                                       
+                                                       >{{answer.instancecall_set.last.get_status_display}}
+                                                    </span>
+                                                      
+                                                       {% else %}
+                                                       no data
+                                                       {% endif %}
+                                                           
+                                                    </td>
                                                    <td>no data</td>
 
                                                         <td>
@@ -122,15 +136,7 @@
                                                             </form> 
                                                             </td>
                                                         
-                                                 
-                                            
-
-                                                       
-
-
-                                           
-
-
+                        
                                         </tr>
 
                                     {% endfor %}

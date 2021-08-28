@@ -91,13 +91,14 @@ class InstanceCall(models.Model):
         (2, 'لم يتم الرد'),
         (3, 'مشغول'),
         (4, 'مغلق أو غير متاح')
-    )
+    )   
 
     call_type_choices = (
         (1, 'مكالمة صادرة'),
         (2, 'مكالمة واردة'),
         (3, 'Whatsapp'),
-        (4, 'Messenger')
+        (4, 'Messenger'),
+
     )
 
     instance = models.ForeignKey(Instance, on_delete=models.CASCADE)
