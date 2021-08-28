@@ -96,18 +96,24 @@ class InstanceComment(models.Model):
 
 class InstanceCall(models.Model):
     call_status = (
+
         (1, _('Answered')),
         (2, _('Not Answered')),
         (3, _('Busy')),
         (4, _('Unreachable'))
     )
 
+
     call_type_choices = (
         (1, 'مكالمة صادرة'),
         (2, 'مكالمة واردة'),
         (3, 'Whatsapp'),
         (4, 'Messenger'),
+
+
+
         (5, 'E-Mail')
+
     )
 
     instance = models.ForeignKey(Instance, on_delete=models.CASCADE)

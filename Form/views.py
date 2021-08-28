@@ -282,7 +282,7 @@ def add_call(request, pk):
         history.call = call
         history.call_type = 1
         history.save()
-        message = "تم اضافة مكالمة بنجاح"
+        message = "تم اضافة مكالمة بنجاح "
         context = {
             'message': message
         }
@@ -299,19 +299,32 @@ def add_call(request, pk):
     return render(request, 'Answer/add_call.html', context)
 
 
+
 class CallUpdate(LoginRequiredMixin, UpdateView):
+
     login_url = '/auth/login/'
     model = InstanceCall
     form_class = CallForm
     template_name = 'Answer/update_call.html'
+   
     success_url = reverse_lazy('Form:CallUpdate')
 
-    def get_context_data(self, **kwargs):
+    def get_context_data( self, **kwargs,  ):
         context = super().get_context_data(**kwargs)
         context['action_url'] = reverse_lazy('Form:CallUpdate', kwargs={'pk': self.object.id})
         return context
 
     def get_success_url(self, **kwargs):
+        instance = get_object_or_404(Instance, id=self.object.instance.id)
+        instance_call = get_object_or_404(InstanceCall , id=self.object.id)
+        
+        print(instance)
+        history = CallHistory()
+        history.instance = instance
+        history.call_by = self.request.user
+        history.call = instance_call
+        history.call_type = 2
+        history.save()
         return reverse_lazy('Form:AnswerList', kwargs={'pk': self.object.instance.form.id})
 
 

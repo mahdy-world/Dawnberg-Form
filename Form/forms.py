@@ -65,10 +65,12 @@ class CallForm(forms.ModelForm):
 
     class Meta:
         model = InstanceCall
+
         fields = ['call_type', 'status', 'summary', 'deleted']
         widgets = {
             'deleted': forms.HiddenInput(),
         }
+
 
 
 class CommentForm(forms.ModelForm):

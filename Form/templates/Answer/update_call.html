@@ -29,128 +29,13 @@
 
                 <!-- Create Form -->
 
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title mb-4">Call Information</h4>
-
-                                
-                                <div class="table-responsive">
-                                    <table class="table table-nowrap mb-0">
-                                        <tbody>
-                                            <tr>
-                                                <th scope="row">Call By :</th>
-                                                <td>{{employee}}</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">Status :</th>
-                                                
-                                                {% if x.status == 1 %}
-
-                                                <td><span class="badge badge-success">{{x.status}}</span></td>
-
-                                                {% elif x.status == 2 %}
-
-                                                <td><span class="badge badge-danger">{{x.status}}</span></td>
-
-                                                {% elif x.status == 3 %}
-
-                                                <td><span class="badge badge-warning">{{x.status}}</span></td>
-
-                                                {% elif x.status == 4 %}
-
-                                                <td><span class="badge badge-info">{{x.status}}</span></td>
-
-                                                    
-                                                {% endif %}
-                                                    
-                                                
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">E-mail :</th>
-                                                <td>cynthiaskote@gmail.com</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">Location :</th>
-                                                <td>California, United States</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <p class="text-muted mb-4">Hi I'm Cynthia Price,has been the industry's standard dummy text To an English person, it will seem like simplified English, as a skeptical Cambridge.</p>
-
-                            </div>
-                        </div>
-                       
-                    </div>
-                    <!-- End Create Form  -->
-                    
-                     
-                    <!-- Call tools -->
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <div class="card-body">
-
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="card-title mb-4"> <i class="fa fa-user"> </i> Call Information</h4>
-        
-                                        
-                                        <div class="table-responsive">
-                                            <table class="table table-nowrap mb-0">
-                                                <tbody>
-                                                    
-                                                    <tr>
-                                                        <td>
-                                                            <i class="fa fa-mobile"></i> 657887878
-                                                        </td>
-                                                     
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>
-                                                            <i class="fas fa-envelope"></i> mmldk@yahoo.com
-                                                        </td>
-                                                     
-                                                    </tr>
-                                                
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <a href="tel:0101" title="Phone Call" class="btn btn-info">
-                                    <i class="fa fa-mobile"></i>
-                                </a>
-
-                                <a href="https://wa.me/20101" title="Whatsapp" class="btn btn-success" target="_blank">
-                                    <i class="fab fa-whatsapp"></i>
-                                </a>
-
-                                <a href="https://m.me/None" title="Email" class="btn btn-primary" target="_blank">
-                                    <i class="fas fa-envelope"></i>
-                                </a>
-                                
-                               
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end call tools -->
-
-                    
-                </div>
-
-
+               
                 <div class="row">
                     <div class="col-lg-6">
                         
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Update Comment</h4>
+                                <h4 class="card-title">Update Call</h4>
                                 <form method="POST">
                                     {% csrf_token %}
                                     {% bootstrap_form form %}
