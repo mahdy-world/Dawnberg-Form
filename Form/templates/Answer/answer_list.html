@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 {% load i18n %}
 
@@ -88,7 +89,6 @@
                                         </tr>
 
 
-
                                         </thead>
                                         <tbody align="center">
                                         {% for instance in instances %}
@@ -100,17 +100,6 @@
                                                 </td>
                                                 <td>{{ instance.created_at.astimezone.date.isoformat }}</td>
                                                 <td>
-
-
-                                                            </form> 
-                                                            </td>
-                                                        
-                        
-                                        </tr>
-
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
 
                                                     <div class="badge {% if instance.assigned_employee == request.user %}badge-primary{% elif instance.assigned_employee == None %}badge-success{% else %}badge-danger{% endif %}">
                                                         <i class="fas fa-user"></i> {{ instance.assigned_employee }}
@@ -168,7 +157,6 @@
                                         </tbody>
                                     </table>
                                 </div>
-
                             </div>
                         </div>
                     </div>
